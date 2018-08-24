@@ -6,4 +6,4 @@ console.log(`\x1b[2m\x1b[3m\tFile path (relative to execution):\x1b[0m \x1b[33m$
     // Transpilation - babelJSCompiler
     require('@dependency/javascriptTranspilation')({ babelConfigurationFile: 'serverRuntime.BabelConfig.js' })
     // Run
-    export const hostCLIAdapter = require('./script.js').script
+    module.exports = { hostCLIAdapter: require('./script.js').script }
