@@ -6,6 +6,7 @@
  */
 import operatingSystem from 'os'
 import path from 'path'
+import filesystem from 'fs'
 import { parseKeyValuePairSeparatedBySymbolFromArray, combineKeyValueObjectIntoString } from '@dependency/parseKeyValuePairSeparatedBySymbol'
 const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[33m\x1b[1m\x1b[7m', message: '\x1b[96m', italic: '\x1b[2m\x1b[3m', default: '\x1b[0m' },
       applicationHostPath = path.normalize(path.join(__dirname, '../../../')), //applicationHostPath - The path of the host machine that is accesible from inside the virtual container. will be used when calling docker-compose from inside 'manager' container to point to the host VM path rather than trying to mount from manager container. as mounting volumes from other container causes issues.
@@ -23,7 +24,8 @@ export function script({
     let nodeEnvironmentVariable = process.env
 
     if(!nodeCommandArgument[0]) { // if no arguments supplied, fallback to default command.
-        console.log("No command argument passed. Please choose either \"run\" or \"build\" or \"sleep\"")
+        console.log("No command argument passed. Please choose a script:")
+        console.log(listContent({ dir: hostScriptPath, recursive: false }))
         process.exit(1)
     } 
 
@@ -41,3 +43,18 @@ export function script({
     }
 }
 
+// get direcotry contents list
+const listContent = ({dir, filelist = [], recursive = false}) => {
+    filesystem.readdirSync(dir).forEach(content => {
+        if(recursive) {
+            filelist = filesystem.statSync(path.join(dir, content)).isDirectory()
+                ? listContent(path.join(dir, content), filelist)
+                : filelist.push(content);
+        } else {
+            filelist.push(content)
+        }
+  
+    });
+  return filelist;
+}
+  
