@@ -6,7 +6,6 @@
  */
 import operatingSystem from 'os'
 import path from 'path'
-import filesystem from 'fs'
 import { parseKeyValuePairSeparatedBySymbolFromArray, combineKeyValueObjectIntoString } from '@dependency/parseKeyValuePairSeparatedBySymbol' 
 import { listContent } from './utility/listDirectoryContent.js'
 const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[33m\x1b[1m\x1b[7m', message: '\x1b[96m', italic: '\x1b[2m\x1b[3m', default: '\x1b[0m' },

@@ -1,3 +1,5 @@
+import filesystem from 'fs'
+
 // get direcotry contents list
 export const listContent = ({dir, filelist = [], recursive = false}) => {
     filesystem.readdirSync(dir).forEach(content => {
