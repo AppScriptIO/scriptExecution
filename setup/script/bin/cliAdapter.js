@@ -4,7 +4,11 @@
  * This is a CLI entrypoint, where commands could be called to run necessary development environment on host machine.
  */
 const path = require('path')
-const configuration = require('./configuration/configuration.js')
-require('@dependency/hostCLIAdapter').hostCLIAdapter({
-    hostScriptPath: path.join(`${__dirname}/..`, configuration.script.hostMachine.path)
+const applicationRootPath = path.join(process.env.PWD, '../'),
+      ownModulePath = `${__dirname}/../../../`;
+const configuration = require(path.join(applicationRootPath, `./setup/configuration/configuration.js`))
+
+require(ownModulePath).hostCLIAdapter({
+    hostScriptPath: configuration.script.hostMachine,
+    applicationRoot: configuration.directory.application.hostAbsolutePath
 })
