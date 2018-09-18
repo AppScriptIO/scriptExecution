@@ -17,7 +17,13 @@ export function script({
     filename
 }) {
 
-    // TODO: scriptObject.type == 'module' for a single module path
+    // scriptObject.type == 'module' for a single module path
+    let scriptModulePathArray = hostScriptPath
+        .filter(scriptObject => scriptObject.type == 'module')
+    // change relative path to absolute
+    for (let index in scriptModulePathArray) {
+        scriptModulePathArray[index].path = path.join(applicationRoot, scriptModulePathArray[index].path)
+    }
 
     // flatten structure of array of objects to array of strings/paths
     let scriptDirectoryPathArray = hostScriptPath
@@ -38,6 +44,23 @@ export function script({
     } 
 
     let continueRequire = true;
+
+    // execute module type configuration 
+    while(continueRequire && scriptDirectoryPathArray.length > 0) {
+        let hostScriptModule = scriptModulePathArray.pop()
+        if(hostScriptModule.key == filename) {
+            // Load the module with the matching name (either a folder module or file with js extension)
+            try {
+                console.log(`${style.italic}${style.titleGolden}%s${style.default} - %s`, `•[JS script]`, `Running ${hostScriptModule.path}`)
+                require( hostScriptModule.path )
+                continueRequire = false
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
+    // execute directory type configuration
     while(continueRequire && scriptDirectoryPathArray.length > 0) {
         let hostScriptDirectoryPath = scriptDirectoryPathArray.pop()
         let hostMachineScriptModulePath = path.join(hostScriptDirectoryPath, `${filename}`); // the specific module to run.
@@ -48,9 +71,12 @@ export function script({
             continueRequire = false
         } catch (error) {
             console.log(error)
-            console.log(filename + ' command isn`t configured')
         }
     }
+
+    // incase module not required
+    if(!continueRequire) console.log(filename + ' command isn`t configured')
+
 }
 
   
