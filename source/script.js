@@ -6,19 +6,15 @@
  */
 import operatingSystem from 'os'
 import path from 'path'
-import { parseKeyValuePairSeparatedBySymbolFromArray, combineKeyValueObjectIntoString } from '@dependency/parseKeyValuePairSeparatedBySymbol' 
 import { listContent } from './utility/listDirectoryContent.js'
 import { runInDebugContext } from 'vm';
 const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[33m\x1b[1m\x1b[7m', message: '\x1b[96m', italic: '\x1b[2m\x1b[3m', default: '\x1b[0m' },
-      osUsername = operatingSystem.userInfo().username,
-      namedArgs = parseKeyValuePairSeparatedBySymbolFromArray({ array: process.argv }) // ['x=y'] --> { x: y }
-let nodeCommandArgument = process.argv.slice(2) // remove node bin path and executed js entrypoint path. Keeping only the command arguments.
-let nodeEnvironmentVariable = process.env
+      osUsername = operatingSystem.userInfo().username
 
 export function script({
     hostScriptPath, // the path of script directory or array of paths.
     applicationRoot,
-    filename = nodeCommandArgument[0]
+    filename
 }) {
 
     // TODO: scriptObject.type == 'module' for a single module path

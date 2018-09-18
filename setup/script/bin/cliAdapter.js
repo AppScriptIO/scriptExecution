@@ -1,14 +1,40 @@
 #!/usr/bin/env node 
 // Shebang (#!) above allows for invoking this file directly on Unix-like platforms.
+
 /**
  * This is a CLI entrypoint, where commands could be called to run necessary development environment on host machine.
  */
-const path = require('path')
-const applicationRootPath = path.join(process.env.PWD, '../'),
+const path = require('path'),
       ownModulePath = `${__dirname}/../../../`;
-const configuration = require(path.join(applicationRootPath, `./setup/configuration/configuration.js`))
 
-require(ownModulePath).hostCLIAdapter({
-    hostScriptPath: configuration.script.hostMachine,
-    applicationRoot: configuration.directory.application.hostAbsolutePath
-})
+function invoke({
+    configurationPath,
+    filename
+}) {
+    const configuration = require(configurationPath),
+          applicationRootPath = configuration.directory.application.hostAbsolutePath
+    
+    require(ownModulePath).hostCLIAdapter({
+        hostScriptPath: configuration.script.hostMachine,
+        applicationRoot: configuration.directory.application.hostAbsolutePath,
+        filename
+    })
+}
+
+/**
+ * USAGE: 
+ *  script invokation from shell using: npx || yarn run || <pathToScript>
+ *  Shell: npx cliAdapter configuration=<relativePathToConfigurationFromPWD> <filename>
+ */
+function cliInterface() {
+    var { parseKeyValuePairSeparatedBySymbolFromArray, combineKeyValueObjectIntoString } = require('@dependency/parseKeyValuePairSeparatedBySymbol')
+    const   namedArgs = parseKeyValuePairSeparatedBySymbolFromArray({ array: process.argv }) // ['x=y'] --> { x: y }
+    const configurationPath = path.join(process.env.PWD, namedArgs.configuration)
+    process.argv = process.argv.filter(value => value !== `configuration=${namedArgs.configuration}`) // remove configuration paramter
+    const nodeCommandArgument = process.argv.slice(2) // remove node bin path and executed js entrypoint path. Keeping only the command arguments.
+    const filename = nodeCommandArgument[0]
+
+    invoke({ configurationPath, filename })
+}
+
+cliInterface()
