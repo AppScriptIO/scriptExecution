@@ -5,7 +5,7 @@
  * This is a CLI entrypoint, where commands could be called to run necessary development environment on host machine.
  */
 const path = require('path'),
-      ownModulePath = `${__dirname}/../../../`;
+      ownModulePath = path.normalize(`${__dirname}/../../../`);
 
 function invoke({
     configurationPath,
