@@ -1,0 +1,1 @@
+- Check the necessity for adding asynchronous script execution in addition to synchronous.

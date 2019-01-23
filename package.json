@@ -1,12 +1,11 @@
 {
-  "main": "./source/entrypoint.js",
-  "name": "@script/localHostMachineScript",
+  "main": "./source/entrypoint/module/transpilation.entrypoint.js",
+  "name": "@script/scriptExecution",
   "version": "1.0.0",
   "dependencies": {
     "@dependency/javascriptTranspilation": "https://github.com/AppScriptIO/javascriptTranspilation",
-    "@dependency/parseKeyValuePairSeparatedBySymbol": "https://github.com/AppScriptIO/parseKeyValuePairSeparatedBySymbol"
+    "@dependency/parseKeyValuePairSeparatedBySymbol": "https://github.com/AppScriptIO/parseKeyValuePairSeparatedBySymbol",
+    "@dependency/listDirectoryContent": "https://github.com/AppScriptIO/listDirectoryContent"
   },
-  "bin": {
-    "cliAdapter": "./setup/script/bin/cliAdapter.js"
-  }
+  "bin": {}
 }
