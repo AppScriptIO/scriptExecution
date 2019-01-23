@@ -6,3 +6,7 @@ _e.g. deployment scripts as building distribution code, live testing, live reloa
 - **Lookup algorithm** - searches for the script file inside directories specified in script parameter.
 
 _A commandline interface is exposed through [scriptManager](https://github.com/AppScriptIO/scriptManager) package which intern uses `scriptExecution` to execute scripts from the target project._
+
+___
+
+- [Script configuration object specification](/documentation/scriptConfig.spec.md)

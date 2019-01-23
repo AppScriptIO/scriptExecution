@@ -4,8 +4,10 @@
   "version": "1.0.0",
   "dependencies": {
     "@dependency/javascriptTranspilation": "https://github.com/AppScriptIO/javascriptTranspilation",
-    "@dependency/parseKeyValuePairSeparatedBySymbol": "https://github.com/AppScriptIO/parseKeyValuePairSeparatedBySymbol",
-    "@dependency/listDirectoryContent": "https://github.com/AppScriptIO/listDirectoryContent"
-  },
-  "bin": {}
+    "@dependency/listDirectoryContent": "https://github.com/AppScriptIO/listDirectoryContent",
+    "@dependency/configurationManagement": "https://github.com/AppScriptIO/configurationManagement",
+    "@dependency/installNodeJSModule": "https://github.com/AppScriptIO/installNodeJSModule",
+    "@dependency/JSModuleTypeCheck": "https://github.com/AppScriptIO/JSModuleTypeCheck"
+    
+  }
 }
