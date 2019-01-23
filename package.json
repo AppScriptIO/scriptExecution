@@ -3,11 +3,17 @@
   "name": "@script/scriptExecution",
   "version": "1.0.0",
   "dependencies": {
-    "@dependency/javascriptTranspilation": "https://github.com/AppScriptIO/javascriptTranspilation",
-    "@dependency/listDirectoryContent": "https://github.com/AppScriptIO/listDirectoryContent",
+    "@dependency/JSModuleTypeCheck": "https://github.com/AppScriptIO/JSModuleTypeCheck",
+    "@dependency/configuration": "https://github.com/AppScriptIO/configurationManagement",
     "@dependency/configurationManagement": "https://github.com/AppScriptIO/configurationManagement",
     "@dependency/installNodeJSModule": "https://github.com/AppScriptIO/installNodeJSModule",
-    "@dependency/JSModuleTypeCheck": "https://github.com/AppScriptIO/JSModuleTypeCheck"
-    
+    "@dependency/listDirectoryContent": "https://github.com/AppScriptIO/listDirectoryContent"
+  },
+  "devDependencies": {
+    "@dependency/javascriptTranspilation": "https://github.com/AppScriptIO/javascriptTranspilation"
+  },
+  "scripts": {
+    "setup": "yarn install --production=false",
+    "test": "./test/entrypoint.test.js"
   }
 }
