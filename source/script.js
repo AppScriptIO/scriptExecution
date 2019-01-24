@@ -60,10 +60,15 @@ export async function scriptExecution({
             }
 
             if(!scriptKeyToInvoke) { // if no arguments supplied, fallback to default command.
-                console.log("No command argument passed. Please choose a script:")
-                console.log(listContent({ dir: scriptDirectoryPathArray, recursive: false }))
-                console.log(`\n Or \n`)
-                console.log(script)
+                console.log("• No command argument passed. Please choose a script:")
+                if(script.length > 0) {
+                    console.log(script)
+                    let scriptInDirectory = listContent({ dir: scriptDirectoryPathArray, recursive: false })
+                    if(scriptInDirectory) {
+                        console.log(`\n Or \n`)
+                        scriptInDirectory
+                    }
+                } else { console.log(`• There are no script options, the array is empty. Add scripts to the configuration files.`) }
                 process.exit(1)
             } 
 
@@ -94,7 +99,7 @@ export async function scriptExecution({
         singleScriptExecution({ scriptConfig }) // Assuming script is synchronous 
     } else {
         console.log(`scriptList: \n`, script)
-        let errorMessage = `❌ Reached switch default as scriptKeyToInvoke "${scriptKeyToInvoke}" does not match any case/kind/option`
+        let errorMessage = `❌ Reached switch default as scriptKeyToInvoke "${scriptKeyToInvoke}" does not match any option.`
         throw new Error(`\x1b[41m${errorMessage}\x1b[0m`)
     }
 }
