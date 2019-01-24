@@ -106,7 +106,13 @@ export async function scriptExecution({
 
 /**
  * Synchronously execute a single script using a `script configuration` object that holds the settings that should be used to run the script.
- * @param scriptConfig = { type: 'module', path }
+ * @param scriptConfig = { type: 'module' || 'script', path }
+ * 
+ * Javascript scripts would be executed in the following way: 
+ * • `script` - Immediately executed by requiring the file.
+ * • `module` - 
+ *      ○ Required function and then executed. 
+ *      ○ Required with an exported name and then executed as a function.
  */
 function singleScriptExecution({ scriptConfig }) {
     
@@ -134,7 +140,7 @@ function singleScriptExecution_typeScript({ scriptPath }) {
 }
 
 /**
- * Execute `scriptCofnig.type == 'module'`
+ * Execute `scriptCofnig.type == 'module'` i.e. value is exported.
  */
 function singleScriptExecution_typeModule({ scriptPath, methodName }) {
     assert(path.isAbsolute(scriptPath), `• 'scriptPath' must be an absolute path to be executed.`)
