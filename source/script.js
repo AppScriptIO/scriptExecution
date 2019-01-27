@@ -83,7 +83,7 @@ export async function scriptExecution({
                         require.resolve(scriptPath)
                         // in case resolved and found:
                         continueLoop = false
-                        scriptConfig = { type: 'module', path: scriptPath }
+                        scriptConfig = { type: 'script', path: scriptPath }
                     } catch (error) {
                         // skip
                     }
