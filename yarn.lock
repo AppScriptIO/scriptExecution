@@ -673,19 +673,19 @@
 
 "@dependency/JSModuleTypeCheck@https://github.com/AppScriptIO/JSModuleTypeCheck":
   version "1.0.0"
-  resolved "https://github.com/AppScriptIO/JSModuleTypeCheck#09e1f2e301fa153ebe915522e8b24477bd76e92e"
+  resolved "https://github.com/AppScriptIO/JSModuleTypeCheck#d43f29e5e0e33339cfd0940d8298f4609fe8b0c8"
 
 "@dependency/addModuleResolutionPath@https://github.com/AppScriptIO/addModuleResolutionPath":
   version "1.0.0"
-  resolved "https://github.com/AppScriptIO/addModuleResolutionPath#e55f2af7f4794b48290d4cb7175cdb22ab63d65c"
+  resolved "https://github.com/AppScriptIO/addModuleResolutionPath#42195b6713b5c2acdc1241e408efa8563d700ebf"
 
 "@dependency/configuration@https://github.com/AppScriptIO/configurationManagement", "@dependency/configurationManagement@https://github.com/AppScriptIO/configurationManagement":
   version "1.0.0"
-  resolved "https://github.com/AppScriptIO/configurationManagement#8b185be738bc9fda9d411ef6ad30950916d0fc75"
+  resolved "https://github.com/AppScriptIO/configurationManagement#e2f231d875d43456f727bd541741c3f73f83c1cf"
 
 "@dependency/installNodeJSModule@https://github.com/AppScriptIO/installNodeJSModule":
   version "1.0.0"
-  resolved "https://github.com/AppScriptIO/installNodeJSModule#d0a5694b97363fdce72cbf99addfdb34b7cded84"
+  resolved "https://github.com/AppScriptIO/installNodeJSModule#4079184b9a2cec2cb3403d219a503e19d21456e2"
 
 "@dependency/javascriptTranspilation@https://github.com/AppScriptIO/javascriptTranspilation":
   version "1.0.0"
@@ -714,7 +714,7 @@
 
 "@dependency/listDirectoryContent@https://github.com/AppScriptIO/listDirectoryContent":
   version "1.0.0"
-  resolved "https://github.com/AppScriptIO/listDirectoryContent#c7e1b38e85c8c80346214111b8d9dad1328c7e9e"
+  resolved "https://github.com/AppScriptIO/listDirectoryContent#a0eb0b8040049e4f79b0b7ffc5e8cb53a4b04a35"
 
 abbrev@1:
   version "1.1.1"
@@ -2080,9 +2080,9 @@ camelcase@^4.1.0:
   integrity sha1-1UVjW+HjPFQmScaRc+Xeas+uNN0=
 
 caniuse-lite@^1.0.30000929:
-  version "1.0.30000930"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000930.tgz#c238bab82bedb462bcbdc61d0334932dcc084d8a"
-  integrity sha512-KD+pw9DderBLB8CGqBzYyFWpnrPVOEjsjargU/CvkNyg60od3cxSPTcTeMPhxJhDbkQPWvOz5BAyBzNl/St9vg==
+  version "1.0.30000932"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000932.tgz#d01763e9ce77810962ca7391ff827b5949ce4272"
+  integrity sha512-4bghJFItvzz8m0T3lLZbacmEY9X1Z2AtIzTr7s7byqZIOumASfr4ynDx7rtm0J85nDmx8vsgR6vnaSoeU8Oh0A==
 
 capture-stack-trace@^1.0.0:
   version "1.0.1"
@@ -2471,9 +2471,9 @@ eastasianwidth@^0.2.0:
   integrity sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==
 
 electron-to-chromium@^1.3.103:
-  version "1.3.106"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.106.tgz#672183160e783cb546cff83d9a98d5f69cd91874"
-  integrity sha512-eXX45p4q9CRxG0G8D3ZBZYSdN3DnrcZfrFvt6VUr1u7aKITEtRY/xwWzJ/UZcWXa7DMqPu/pYwuZ6Nm+bl0GmA==
+  version "1.3.108"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.108.tgz#2e79a6fcaa4b3e7c75abf871505bda8e268c910e"
+  integrity sha512-/QI4hMpAh48a1Sea6PALGv+kuVne9A2EWGd8HrWHMdYhIzGtbhVVHh6heL5fAzGaDnZuPyrlWJRl8WPm4RyiQQ==
 
 empower-core@^0.5.0:
   version "0.5.0"
@@ -3740,9 +3740,9 @@ node-pre-gyp@^0.10.0:
     tar "^4"
 
 node-releases@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.3.tgz#aad9ce0dcb98129c753f772c0aa01360fb90fbd2"
-  integrity sha512-6VrvH7z6jqqNFY200kdB6HdzkgM96Oaj9v3dqGfgp6mF+cHmU4wyQKZ2/WPDRVoR0Jz9KqbamaBN0ZhdUaysUQ==
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.5.tgz#1dbee1380742125fe99e0476c456670bf3590b89"
+  integrity sha512-6C2K0x1QlYTz9wCueMN/DVZFcBVg/qsj2k9iV5gV/+OvG4KNrl7Nu7TWbWFQ3/Z2V10qVFQWtj5Xa+VBodcI6g==
   dependencies:
     semver "^5.3.0"
 
