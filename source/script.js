@@ -56,7 +56,7 @@ export async function scriptExecution({
                 }, [])
             // change relative path to absolute
             for (let index in scriptDirectoryPathArray) {
-                scriptDirectoryPathArray[index] = path.join(appRootPath, scriptDirectoryPathArray[index])
+                scriptDirectoryPathArray[index] = resolveConfigOptionToAbsolutePath({ optionPath: scriptDirectoryPathArray[index], rootPath: appRootPath })
             }
 
             if(!scriptKeyToInvoke) { // if no arguments supplied, fallback to default command.
