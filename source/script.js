@@ -5,6 +5,7 @@
  * • ./entrypoint [build|run] entrypointConfigurationPath=./entrypoint/configuration.js entrypointConfigurationKey=[run | install | build | buildContainerManager/buildEnvironmentImage ] dockerImageTag=X dockerhubUser=x dockerhubPass=x [dockerImageName=x]
  */
 import operatingSystem from 'os'
+import filesystem from 'fs'
 import path from 'path'
 import assert from 'assert'
 import { listContent } from '@dependency/listDirectoryContent'
@@ -21,6 +22,7 @@ export async function scriptExecution({
     script, // [ string | object | array of objects ] the path of script directory or array of objects, where objects can represent directories or module paths.
     appRootPath,
     scriptKeyToInvoke,
+    jsToEvaluate, // javascript encoded as string to evaluate on the required script.
     shouldInstallModule = false // if should install node_modules dependencies of the script to be executed.
 }) {
     let scriptConfig, scriptConfigArray, scriptDirectoryPathArray;
@@ -93,15 +95,64 @@ export async function scriptExecution({
         break;
     }
 
-    if(scriptConfig) {
-        if(shouldInstallModule)
-            await installEntrypointModule({ scriptPath: scriptConfig.path })    
-        singleScriptExecution({ scriptConfig }) // Assuming script is synchronous 
-    } else {
-        console.log(`scriptList: \n`, script)
-        let errorMessage = `❌ Reached switch default as scriptKeyToInvoke "${scriptKeyToInvoke}" does not match any option.`
-        throw new Error(`\x1b[41m${errorMessage}\x1b[0m`)
-    }
+//     var data = '';
+// function withPipe(data) {
+//    console.log('content was piped');
+//    console.log(data.trim());
+// }
+// function withoutPipe() {
+//    console.log('no content was piped');
+// }
+
+// var self = process.stdin;
+// self.on('readable', function() {
+//     var chunk = this.read();
+//     if (chunk === null) {
+//         withoutPipe();
+//     } else {
+//        data += chunk;
+//     }
+// });
+// self.on('end', function() {
+//    withPipe(data);
+// });
+
+    console.log(process.argv)
+    console.log(Boolean(process.stdin.isTTY)) 
+    console.log(Boolean(process.stdout.isTTY))
+    console.log(await loadSTDIN3())
+    console.log(process.argv)
+    return;
+
+    let standartInputData = ''
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('readable', () => {
+      let chunk;
+      // Use a loop to make sure we read all available data.
+      while ((chunk = process.stdin.read()) !== null) {
+        standartInputData += chunk
+      }
+    });
+    
+    process.stdin.on('end', async () => {
+        jsToEvaluate = jsToEvaluate || standartInputData
+
+        if(scriptConfig) {
+            if(shouldInstallModule)
+                await installEntrypointModule({ scriptPath: scriptConfig.path })    
+            if(jsToEvaluate) {
+                eval(`require('${scriptConfig.path}')${jsToEvaluate}`) 
+            } else {
+                singleScriptExecution({ scriptConfig }) // Assuming script is synchronous 
+            }
+        } else {
+            console.log(`scriptList: \n`, script)
+            let errorMessage = `❌ Reached switch default as scriptKeyToInvoke "${scriptKeyToInvoke}" does not match any option.`
+            throw new Error(`\x1b[41m${errorMessage}\x1b[0m`)
+        }
+
+    });
+
 }
 
 /**
@@ -152,3 +203,88 @@ function singleScriptExecution_typeModule({ scriptPath, methodName }) {
         require(scriptPath)() // execute the default export assuming it is a function.
     }
 }
+
+/**
+ * Handle stdin input using buffers rather than the event emitter of process.stdin, which will not keep waiting in an idle state if no piped values are passed (in the program was run without shell pipeline).
+ * https://github.com/gpestana/pipe-args
+  */
+function loadSTDIN() {
+    if (process.stdin.isTTY) return false;
+  
+    const BUFSIZE = 65536;
+    let nbytes = 0;
+    let chunks = [];
+    let buffer = '';
+  
+    while(true) {
+      try {
+        buffer = Buffer.alloc(BUFSIZE);
+        nbytes = filesystem.readSync(0, buffer, 0, BUFSIZE, null);
+      } 
+      catch (e) {
+        if (e.code != 'EAGAIN') throw e; 
+      };
+  
+      if (nbytes === 0) break;
+       chunks.push(buffer.slice(0, nbytes));
+    };
+    
+    const stdin = Buffer.concat(chunks).toString();
+    if (stdin) {
+      process.argv.push(stdin.trim());
+      return true;
+    }
+  
+}
+
+const stdin = process.stdin;
+
+function loadSTDIN2() {
+	let ret = '';
+
+	return new Promise(resolve => {
+		if (stdin.isTTY) {
+			resolve(ret);
+			return;
+		}
+
+		stdin.setEncoding('utf8');
+
+		stdin.on('readable', () => {
+			let chunk;
+
+			while ((chunk = stdin.read())) {
+				ret += chunk;
+			}
+		});
+
+		stdin.on('end', () => {
+			resolve(ret);
+		});
+	});
+};
+
+function loadSTDIN3() {
+	const ret = [];
+	let len = 0;
+
+	return new Promise(resolve => {
+		if (stdin.isTTY) {
+			resolve(Buffer.concat([]));
+			return;
+		}
+
+		stdin.on('readable', () => {
+			let chunk;
+
+			while ((chunk = stdin.read())) {
+				ret.push(chunk);
+				len += chunk.length;
+			}
+		});
+
+		stdin.on('end', () => {
+			resolve(Buffer.concat(ret, len));
+		});
+	});
+};
