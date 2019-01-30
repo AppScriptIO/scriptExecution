@@ -10,8 +10,8 @@ import filesystem from 'fs'
 import path from 'path'
 import assert from 'assert'
 import { installEntrypointModule } from './utility/installScriptModule.js'
-import { scriptLookup } from './scriptLookup.js'
-import { singleScriptExecution } from './executeScript.js'
+import { scriptLookup } from './lookup.js'
+import { singleScriptExecution } from './execute.js'
 
 /**
  * read configuration option `script` and deal with the different options to execute a script that is requested `scriptKeyToInvoke`
@@ -24,10 +24,7 @@ export async function scriptExecution({
     shouldInstallModule = false // if should install node_modules dependencies of the script to be executed.
 }) {
     let scriptConfig = await scriptLookup({ script, appRootPath, scriptKeyToInvoke })
-                            .catch(error => {
-                                console.log(`scriptList: \n`, script) // log available scripts 
-                                throw error
-                            })
+                                .catch(error => { throw error })
 
     if(shouldInstallModule)
         await installEntrypointModule({ scriptPath: scriptConfig.path })    
@@ -40,4 +37,7 @@ export async function scriptExecution({
     singleScriptExecution({ scriptConfig }) // Assuming script is synchronous 
 }
 
-
+export { 
+    singleScriptExecution as execute, 
+    scriptLookup as lookup 
+} 

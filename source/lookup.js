@@ -1,6 +1,7 @@
 import path from 'path'
 import { resolveConfigOptionToAbsolutePath } from '@dependency/configurationManagement'
 import { listContent } from '@dependency/listDirectoryContent'
+import util from 'util'
 
 export async function scriptLookup({ script, appRootPath, scriptKeyToInvoke }) {
     let scriptConfig, scriptFileConfigArray, scriptDirectoryPathArray;
@@ -75,7 +76,8 @@ export async function scriptLookup({ script, appRootPath, scriptKeyToInvoke }) {
 
     if(!scriptConfig) {
         let errorMessage = `❌ Reached switch default as scriptKeyToInvoke "${scriptKeyToInvoke}" does not match any option.`
-        throw new Error(`\x1b[41m${errorMessage}\x1b[0m`)
+        let scriptListMessage = `scriptList: \n ${util.inspect(script, { colors: true, compact: false })}` // log available scripts 
+        throw new Error(`\x1b[41m${errorMessage}\x1b[0m \n ${scriptListMessage}`)
     }
     
     return scriptConfig
