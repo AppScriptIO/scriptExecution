@@ -1,4 +1,5 @@
 import vm from 'vm'
+import path from 'path'
 import assert from 'assert'
 const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[33m\x1b[1m\x1b[7m', message: '\x1b[96m', italic: '\x1b[2m\x1b[3m', default: '\x1b[0m' }
 
@@ -13,7 +14,6 @@ const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[
  *      ○ Required with an exported name and then executed as a function.
  */
 export function singleScriptExecution({ scriptConfig }) {
-    
     switch (scriptConfig.type) {
         case 'module': 
             singleScriptExecution_typeModule({ scriptPath: scriptConfig.path, methodName: scriptConfig.methodName })

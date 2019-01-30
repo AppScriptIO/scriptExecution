@@ -7,7 +7,6 @@
 import operatingSystem from 'os'
 const  osUsername = operatingSystem.userInfo().username
 import filesystem from 'fs'
-import path from 'path'
 import assert from 'assert'
 import { installEntrypointModule } from './utility/installScriptModule.js'
 import { scriptLookup } from './lookup.js'
@@ -33,6 +32,8 @@ export async function scriptExecution({
         scriptConfig.type = 'evaluateCode'
         scriptConfig.jsCodeToEvaluate = jsCodeToEvaluate
     }
+
+    scriptConfig.type = scriptConfig.type || 'script' // fallback to default
 
     singleScriptExecution({ scriptConfig }) // Assuming script is synchronous 
 }
