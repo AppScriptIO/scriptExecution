@@ -60,12 +60,15 @@ function singleScriptExecution_typeModule({ scriptPath, methodName }) {
  * Execute `scriptCofnig.type == 'jsCodeToEvaluate'` where the script is required and the jsCodeToEvaluate is evaluated on the required file.
  */
 function singleScriptExecution_typeEvaluateCode({ scriptPath, jsCodeToEvaluate }) {
+    // process.exit()
     let scriptModule = require(scriptPath)
     let contextEnvironment = vm.createContext({
-        requiredModule: scriptModule, // pass required script
+        _requiredModule_: scriptModule, // pass required script
         // require // pass global require to the evaluated code context
     })
-    let vmScript = new vm.Script(`requiredModule${jsCodeToEvaluate}`, { // where `requiredModule` is the required script variable from the context
+    let vmScript = new vm.Script(`
+        _requiredModule_${jsCodeToEvaluate}
+        `, { // where `requiredModule` is the required script variable from the context
         filename: scriptPath // add file to Node's event loop stack trace
     })
     try {
