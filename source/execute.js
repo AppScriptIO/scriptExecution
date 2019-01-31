@@ -1,6 +1,7 @@
 import vm from 'vm'
 import path from 'path'
 import assert from 'assert'
+import util from 'util'
 const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[33m\x1b[1m\x1b[7m', message: '\x1b[96m', italic: '\x1b[2m\x1b[3m', default: '\x1b[0m' }
 
 /**
@@ -82,6 +83,7 @@ function singleScriptExecution_typeEvaluateCode({ scriptPath, jsCodeToEvaluate }
         })    
     } catch (error) {
         console.log(`❌ 'vm.runInContext' ${scriptPath} running in its own context failed.`)
+        console.log(`scriptModule/_requiredModule_ (i.e. required script path) is equal to : ${util.inspect(scriptModule, { colors: true, compact: false })}`)
         throw error
     }
 }
