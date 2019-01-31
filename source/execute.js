@@ -7,13 +7,17 @@ const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[
  * Synchronously execute a single script using a `script configuration` object that holds the settings that should be used to run the script.
  * @param scriptConfig = { type: 'module' || 'script', path }
  * 
- * Javascript scripts would be executed in the following way: 
+ * Javascript scripts wit different `scriptConfig.type` would be executed in the following way: 
  * • `script` - Immediately executed by requiring the file.
  * • `module` - 
  *      ○ Required function and then executed. 
  *      ○ Required with an exported name and then executed as a function.
+ * • `jsCodeToEvaluate` - allows the execution of modules (exported values) using the api from commandline by passing js code as commandline argument.
  */
 export function singleScriptExecution({ scriptConfig }) {
+    // set target script path for the command line argument
+    process.argv[1] = scriptConfig.path || process.argv[1] // in case path doesn't exist, keep it as is.
+
     switch (scriptConfig.type) {
         case 'module': 
             singleScriptExecution_typeModule({ scriptPath: scriptConfig.path, methodName: scriptConfig.methodName })
@@ -58,6 +62,7 @@ function singleScriptExecution_typeModule({ scriptPath, methodName }) {
 
 /** 
  * Execute `scriptCofnig.type == 'jsCodeToEvaluate'` where the script is required and the jsCodeToEvaluate is evaluated on the required file.
+ * this is a different approach where command arguments aren't needed as the parameters are passed as JS code and evaluated.
  */
 function singleScriptExecution_typeEvaluateCode({ scriptPath, jsCodeToEvaluate }) {
     // process.exit()
