@@ -16,7 +16,7 @@ export function executeOnCall({ scriptPath, methodName, parameter = [] }) {
     switch (typeof requiredModule) {
         case 'object':
             assert(typeof requiredModule[methodName] == 'function', `• "${methodName}" must match property of required module and be a function: ${util.inspect(requiredModule)}`)
-            func = requiredModule[methodName]   
+            func = requiredModule[methodName]
         break;
         case 'function': 
             func = requiredModule

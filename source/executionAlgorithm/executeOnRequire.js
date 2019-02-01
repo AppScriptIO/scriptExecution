@@ -4,6 +4,8 @@ import assert from 'assert'
 
 /**
  * Execute `scriptCofnig.type == 'script'`
+ * Usage:
+ *  # Extracting the parameters from the script: `const [parameter1, parameter2] = process.argv.parameter` e.g. `const [api] = process.argv.parameter`
  */
 export function executeOnRequire({ 
     scriptPath, 
