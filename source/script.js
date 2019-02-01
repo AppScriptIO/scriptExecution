@@ -20,8 +20,12 @@ export async function scriptExecution({
     appRootPath,
     scriptKeyToInvoke,
     jsCodeToEvaluate, // javascript encoded as string to evaluate on the required script.
-    shouldInstallModule = false // if should install node_modules dependencies of the script to be executed.
+    shouldInstallModule = false, // if should install node_modules dependencies of the script to be executed.
+    executeWithParameter // an array of function parameters that should be passed to the target script.
 }) {
+ 
+    if(!Array.isArray(executeWithParameter)) executeWithParameter = [executeWithParameter]
+
     let scriptConfig = await scriptLookup({ script, appRootPath, scriptKeyToInvoke })
                                 .catch(error => { throw error })
 
@@ -35,7 +39,7 @@ export async function scriptExecution({
 
     scriptConfig.type = scriptConfig.type || 'script' // fallback to default
 
-    singleScriptExecution({ scriptConfig }) // Assuming script is synchronous 
+    singleScriptExecution({ scriptConfig, parameter: executeWithParameter }) // Assuming script is synchronous 
 }
 
 export { 
