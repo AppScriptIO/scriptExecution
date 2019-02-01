@@ -30,7 +30,7 @@ const   projectRootPath = path.normalize(`${__dirname}/..`)
         for (let scriptKey of  scriptKeyArray) {
             await scriptExecution({
                 script: scriptConfigArray,
-                appRootPath: projectRootPath,
+                projectRootPath: projectRootPath,
                 scriptKeyToInvoke: scriptKey
             }).then(result => {
                 if(result) console.log(result)

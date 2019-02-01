@@ -3,7 +3,7 @@ import { resolveConfigOptionToAbsolutePath } from '@dependency/configurationMana
 import { listContent } from '@dependency/listDirectoryContent'
 import util from 'util'
 
-export async function scriptLookup({ script, appRootPath, scriptKeyToInvoke }) {
+export async function scriptLookup({ script, projectRootPath, scriptKeyToInvoke }) {
     let scriptConfig, scriptFileConfigArray, scriptDirectoryPathArray;
     switch (typeof script) {
         case 'string':
@@ -17,7 +17,7 @@ export async function scriptLookup({ script, appRootPath, scriptKeyToInvoke }) {
             // change relative path to absolute
             for (let index in scriptFileConfigArray) {
                 if(scriptFileConfigArray[index].path) {
-                    scriptFileConfigArray[index].path = resolveConfigOptionToAbsolutePath({ optionPath: scriptFileConfigArray[index].path, rootPath: appRootPath })
+                    scriptFileConfigArray[index].path = resolveConfigOptionToAbsolutePath({ optionPath: scriptFileConfigArray[index].path, rootPath: projectRootPath })
                 } else {
                     // default entrypoint file location if no path option present in configuration file. Try to find the key name as file name in default entrypointFolder.
                     // scriptPath = path.join(`${configInstance.rootPath}`, `script`, `${scriptConfig.key}`) // .js file or folder module.
@@ -37,7 +37,7 @@ export async function scriptLookup({ script, appRootPath, scriptKeyToInvoke }) {
                 }, [])
             // change relative path to absolute
             for (let index in scriptDirectoryPathArray) {
-                scriptDirectoryPathArray[index] = resolveConfigOptionToAbsolutePath({ optionPath: scriptDirectoryPathArray[index], rootPath: appRootPath })
+                scriptDirectoryPathArray[index] = resolveConfigOptionToAbsolutePath({ optionPath: scriptDirectoryPathArray[index], rootPath: projectRootPath })
             }
 
             if(!scriptKeyToInvoke) { // if no arguments supplied, fallback to default command.

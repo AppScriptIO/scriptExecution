@@ -17,7 +17,7 @@ import { singleScriptExecution } from './execute.js'
  */
 export async function scriptExecution({
     script, // [ string | object | array of objects ] the path of script directory or array of objects, where objects can represent directories or module paths.
-    appRootPath,
+    projectRootPath,
     scriptKeyToInvoke,
     jsCodeToEvaluate, // javascript encoded as string to evaluate on the required script.
     shouldInstallModule = false, // if should install node_modules dependencies of the script to be executed.
@@ -26,7 +26,7 @@ export async function scriptExecution({
  
     if(!Array.isArray(executeWithParameter)) executeWithParameter = [executeWithParameter]
 
-    let scriptConfig = await scriptLookup({ script, appRootPath, scriptKeyToInvoke })
+    let scriptConfig = await scriptLookup({ script, projectRootPath, scriptKeyToInvoke })
                                 .catch(error => { throw error })
 
     if(shouldInstallModule)
