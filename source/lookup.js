@@ -3,7 +3,11 @@ import { resolveConfigOptionToAbsolutePath } from '@dependency/configurationMana
 import { listContent } from '@dependency/listDirectoryContent'
 import util from 'util'
 
-export async function scriptLookup({ script, projectRootPath, scriptKeyToInvoke }) {
+export async function scriptLookup({ 
+    script,  // [ string | object | array of objects ] the path of script directory or array of objects, where objects can represent directories or module paths.
+    projectRootPath, 
+    scriptKeyToInvoke 
+}) {
     let scriptConfig, scriptFileConfigArray, scriptDirectoryPathArray;
     switch (typeof script) {
         case 'string':

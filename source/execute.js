@@ -1,6 +1,7 @@
 import { executeOnRequire } from "./executionAlgorithm/executeOnRequire.js"
 import { executeOnCall } from "./executionAlgorithm/executeOnCall.js"
 import { executeUsingArbitraryCode } from "./executionAlgorithm/executeUsingArbitraryCode.js"
+import { installEntrypointModule } from './utility/installScriptModule.js'
 
 /**
  * Synchronously execute a single script using a `script configuration` object that holds the settings that should be used to run the script.
@@ -23,12 +24,24 @@ import { executeUsingArbitraryCode } from "./executionAlgorithm/executeUsingArbi
  *   return () => callback(...args) // specific interface of the callback
  * }`            
  */
-export function singleScriptExecution({ 
+export async function singleScriptExecution({ 
     scriptConfig, 
-    parameter // @type array - parameter that should be executed with the script.
+    parameter, // @type array - parameter that should be executed with the script. // an array of function parameters that should be passed to the target script.
+    shouldInstallModule = false, // if should install node_modules dependencies of the script to be executed.
+    jsCodeToEvaluate, // javascript encoded as string to evaluate on the required script.
 }) {
     // set target script path for the command line argument
     process.argv[1] = scriptConfig.path || process.argv[1] // in case path doesn't exist, keep it as is.
+
+    if(shouldInstallModule)
+        await installEntrypointModule({ scriptPath: scriptConfig.path })    
+    
+    if(jsCodeToEvaluate) {
+        scriptConfig.type = 'evaluateCode'
+        scriptConfig.jsCodeToEvaluate = jsCodeToEvaluate
+    }
+
+    scriptConfig.type = scriptConfig.type || 'script' // fallback to default
 
     switch (scriptConfig.type) {
         case 'script':
