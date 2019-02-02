@@ -5,11 +5,12 @@ import assert from 'assert'
 /**
  * Execute `scriptCofnig.type == 'script'`
  * Usage:
- *  # Extracting the parameters from the script: `const [parameter1, parameter2] = process.argv.parameter` e.g. `const [api] = process.argv.parameter`
+ *  # Extracting the parameters from the script: `const [parameter1, parameter2] = process.argv.parameter` 
+ *    e.g. `const [api] = process.argv.parameter` or `const [{ project: projectApi }] = process.argv.parameter`
  */
 export function executeOnRequire({ 
     scriptPath, 
-    parameter = [] // parameters are passed using an environment variable. 
+    parameter = null // parameters are passed using an environment variable. 
 }) {
     assert(path.isAbsolute(scriptPath), `• 'scriptPath' must be an absolute path to be executed.`)
     console.log(`${style.italic}${style.titleGolden}%s${style.default} - %s`, `•[JS script]`, `Running ${scriptPath}`)

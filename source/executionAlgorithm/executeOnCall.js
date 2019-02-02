@@ -6,7 +6,12 @@ const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[
 /**
  * Execute `scriptCofnig.type == 'module'` i.e. value is exported.
  */
-export function executeOnCall({ scriptPath, methodName, parameter = [] }) {
+export function executeOnCall({ 
+    scriptPath, 
+    methodName, 
+    parameter = [], 
+    adapterFunction = null // the adapter must return a function where it encapsulates the specific needed implementation for the script.
+}) {
     assert(path.isAbsolute(scriptPath), `• 'scriptPath' must be an absolute path to be executed.`)
     console.log(`${style.italic}${style.titleGolden}%s${style.default} - %s`, `•[JS module]`, `Running ${scriptPath}`)
     console.log(`\t\x1b[2m\x1b[3m%s\x1b[0m \x1b[95m%s\x1b[0m`, `File path:`, `${scriptPath}`)
@@ -27,5 +32,11 @@ export function executeOnCall({ scriptPath, methodName, parameter = [] }) {
         break;
     }
 
-    func(...parameter) // execute function from module passing it the parameters.
+    if(!Array.isArray(parameter)) parameter = [parameter]
+
+    if(adapterFunction) {
+        func = adapterFunction({ callback: func, args: parameter})
+        func()
+    } else
+        func(...parameter) // execute function from module passing it the parameters.
 }
