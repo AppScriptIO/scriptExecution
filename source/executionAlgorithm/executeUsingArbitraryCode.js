@@ -12,9 +12,8 @@ export function executeUsingArbitraryCode({
     adapterFunction = null // the adapter must return a function where it encapsulates the specific needed implementation for the script.
 }) {
     let scriptModule = require(scriptPath)
-    if(adapterFunction) // apply the adapter on the first called function e.g. `<scriptModule>.x.y.z(<apply adapter>)` or `<scriptModule>(<apply adapter>)`
-        scriptModule = createModuleProxy({ target: scriptModule, adapterFunction, additionalParameter: parameter })
-
+    scriptModule = createModuleProxy({ target: scriptModule, adapterFunction, additionalParameter: parameter })
+    
     let contextEnvironment = vm.createContext(Object.assign({
             // proxy for calling first function in the tree, pass arguments. 
             _requiredModule_: scriptModule, // pass required script
@@ -50,7 +49,10 @@ function createModuleProxy({
         apply: function(_target, thisArg, argumentsList) {
             if(typeof additionalParameter == 'object' && typeof argumentsList[0] == 'object') // supports only objects
                 argumentsList[0] = Object.assign(additionalParameter, argumentsList[0])
-            return adapterFunction({ callback: _target, args: argumentsList})()
+            if(adapterFunction) // apply the adapter on the first called function e.g. `<scriptModule>.x.y.z(<apply adapter>)` or `<scriptModule>(<apply adapter>)`
+                return adapterFunction({ callback: _target, args: argumentsList})()
+            else 
+                return _target(...argumentsList)
         }, 
         get: (_target, property, receiver) => {
             let propertyValue = Reflect.get(_target, property, receiver)
