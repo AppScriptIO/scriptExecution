@@ -10,3 +10,7 @@ _A commandline interface is exposed through [scriptManager](https://github.com/A
 ___
 
 - [Script configuration object specification](/documentation/scriptConfig.spec.md)
+
+___
+
+### 🔑 License: [MIT](/.github/LICENSE)
