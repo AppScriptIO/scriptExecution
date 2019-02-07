@@ -1,6 +1,6 @@
 {
   "main": "./source/entrypoint/module/transpilation.entrypoint.js",
-  "name": "@script/scriptExecution",
+  "name": "@dependency/scriptExecution",
   "version": "1.0.0",
   "dependencies": {
     "@dependency/JSModuleTypeCheck": "https://github.com/AppScriptIO/JSModuleTypeCheck",
