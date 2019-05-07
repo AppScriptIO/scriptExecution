@@ -1,9 +1,0 @@
-// after build step the main script and the "bin" script will change to match the distribution and the entrypoints not affected by on-the-fly transpilcation.
-{
-  "main": "./distribution/entrypoint/module",
-  "name": "@script/scriptExecution",
-  "version": "1.0.0",
-  "bin": {
-    "executeScript": "./distribution/entrypoint/cli"
-  }
-}

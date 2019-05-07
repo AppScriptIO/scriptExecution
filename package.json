@@ -1,21 +1,20 @@
 {
-  "main": "./source/entrypoint/module/transpilation.entrypoint.js",
   "name": "@dependency/scriptExecution",
   "version": "1.0.0",
+  "main": "./entrypoint/programmaticAPI",
   "dependencies": {
-    "@dependency/JSModuleTypeCheck": "https://github.com/AppScriptIO/JSModuleTypeCheck",
-    "@dependency/configuration": "https://github.com/AppScriptIO/configurationManagement",
-    "@dependency/configurationManagement": "https://github.com/AppScriptIO/configurationManagement",
-    "@dependency/installNodeJSModule": "https://github.com/AppScriptIO/installNodeJSModule",
-    "@dependency/listDirectoryContent": "https://github.com/AppScriptIO/listDirectoryContent"
+    "@dependency/JSModuleTypeCheck": "https://github.com/AppScriptIO/JSModuleTypeCheck#semver:^1.x.x",
+    "@dependency/configurationManagement": "https://github.com/AppScriptIO/configurationManagement#semver:^1.x.x",
+    "@dependency/installNodeJSModule": "https://github.com/AppScriptIO/installNodeJSModule#semver:^1.x.x",
+    "@dependency/listDirectoryContent": "https://github.com/AppScriptIO/listDirectoryContent#semver:^1.x.x"
   },
   "devDependencies": {
-    "@dependency/scriptManager": "https://github.com/AppScriptIO/scriptManager#semver:^1.x.x",
     "@dependency/deploymentScript": "https://github.com/AppScriptIO/deploymentScript#semver:^1.x.x",
+    "@dependency/javascriptStaticAnalysis": "https://github.com/AppScriptIO/javascriptStaticAnalysis#semver:^1.x.x",
     "@dependency/javascriptTranspilation": "https://github.com/AppScriptIO/javascriptTranspilation#semver:^1.x.x",
-    "@dependency/javascriptStaticAnalysis": "https://github.com/AppScriptIO/javascriptStaticAnalysis",
-    "typescript": "^3.3.3333"    
-},
+    "@dependency/scriptManager": "https://github.com/AppScriptIO/scriptManager",
+    "typescript": "^3.3.3333"
+  },
   "scripts": {
     "setup": "yarn install --production=false",
     "test": "./test/entrypoint.test.js"
