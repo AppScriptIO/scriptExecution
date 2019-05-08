@@ -1,6 +1,6 @@
 {
   "name": "@dependency/scriptExecution",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./entrypoint/programmaticAPI",
   "dependencies": {
     "@dependency/JSModuleTypeCheck": "https://github.com/AppScriptIO/JSModuleTypeCheck#semver:^1.x.x",
@@ -12,7 +12,7 @@
     "@dependency/deploymentScript": "https://github.com/AppScriptIO/deploymentScript#semver:^1.x.x",
     "@dependency/javascriptStaticAnalysis": "https://github.com/AppScriptIO/javascriptStaticAnalysis#semver:^1.x.x",
     "@dependency/javascriptTranspilation": "https://github.com/AppScriptIO/javascriptTranspilation#semver:^1.x.x",
-    "@dependency/scriptManager": "https://github.com/AppScriptIO/scriptManager",
+    "@dependency/scriptManager": "https://github.com/AppScriptIO/scriptManager#semver:^1.x.x",
     "typescript": "^3.3.3333"
   },
   "scripts": {
