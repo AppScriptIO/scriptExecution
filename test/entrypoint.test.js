@@ -5,7 +5,7 @@
  * This is a CLI entrypoint, where commands could be called to run necessary development environment on host machine.
  */
 const path = require('path')
-const scriptExecution = require('../').scriptExecution
+const { lookup } = require('../')
 const configuration = require('../configuration')
 const   projectRootPath = path.normalize(`${__dirname}/..`) 
                           || configuration.directory.application.rootPath, // example of configuration file usage
@@ -26,17 +26,15 @@ const   projectRootPath = path.normalize(`${__dirname}/..`)
 
 ;(async () => {
     try {
-        
         for (let scriptKey of  scriptKeyArray) {
-            await scriptExecution({
+            await lookup({
                 script: scriptConfigArray,
                 projectRootPath: projectRootPath,
                 scriptKeyToInvoke: scriptKey
             }).then(result => {
                 if(result) console.log(result)
             })
-        }    
-
+        }  
     } catch (error) {
         console.log(`❌ Test Failed.`)
         throw error

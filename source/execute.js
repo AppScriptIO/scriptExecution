@@ -42,7 +42,6 @@ export async function singleScriptExecution({
     }
 
     scriptConfig.type = scriptConfig.type || 'script' // fallback to default
-
     switch (scriptConfig.type) {
         case 'script':
             executeOnRequire({ scriptPath: scriptConfig.path, parameter })

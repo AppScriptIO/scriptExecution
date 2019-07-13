@@ -3,7 +3,7 @@
 - Merge script execution implementations accross modules to using same specification and logic.
         
         3 places of script execution switcher implementation: 
-        - nodeRelationshipGraph module
+        - graph module
         - scriptExecution module
         - buildTool module
 - 
