@@ -6,4 +6,6 @@
         - graph module
         - scriptExecution module
         - buildTool module
-- 
+- allow executing without the first parameter 
+  i.e. `yarn run scriptManager buildSourceCode ".build()"` instead of `yarn run scriptManager buildSourceCode ".build({})"`
+  as the `scriptManager` merges the first parameters using Object.assign to pass the project config value to the script.
