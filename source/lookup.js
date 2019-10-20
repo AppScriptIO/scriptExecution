@@ -57,23 +57,25 @@ export async function scriptLookup({
                 process.exit(1)
             } 
 
-            if(!scriptConfig) {
-                // check script in directories (`scriptConfig.type == 'directory' configuration)
-                let continueLoop = true;
-                while(continueLoop && scriptDirectoryPathArray.length > 0) {
-                    let scriptDirectoryPath = scriptDirectoryPathArray.pop()
-                    let scriptPath = path.join(scriptDirectoryPath, `${scriptKeyToInvoke}`); // the specific module to run.
-                    // Load the module with the matching name (either a folder module or file with js extension)
-                    try {
-                        require.resolve(scriptPath)
-                        // in case resolved and found:
-                        continueLoop = false
-                        scriptConfig = { path: scriptPath }
-                    } catch (error) {
-                        // skip
+            if(!scriptConfig)
+                if(path.isAbsolute(scriptKeyToInvoke)) scriptConfig = { path: scriptKeyToInvoke }
+                else {
+                    // check script in directories (`scriptConfig.type == 'directory' configuration)
+                    let continueLoop = true;
+                    while(continueLoop && scriptDirectoryPathArray.length > 0) {
+                        let scriptDirectoryPath = scriptDirectoryPathArray.pop()
+                        let scriptPath = path.join(scriptDirectoryPath, `${scriptKeyToInvoke}`); // the specific module to run.
+                        // Load the module with the matching name (either a folder module or file with js extension)
+                        try {
+                            require.resolve(scriptPath)
+                            // in case resolved and found:
+                            continueLoop = false
+                            scriptConfig = { path: scriptPath }
+                        } catch (error) {
+                            // skip
+                        }
                     }
                 }
-            } 
         
         break;
     }
