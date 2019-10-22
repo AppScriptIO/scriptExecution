@@ -1,104 +1,105 @@
-import path from 'path'
-import { resolveConfigOptionToAbsolutePath } from '@dependency/configurationManagement'
-import { listContent } from '@dependency/listDirectoryContent'
-import util from 'util'
+"use strict";var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");Object.defineProperty(exports, "__esModule", { value: true });exports.scriptLookup = scriptLookup;var _path = _interopRequireDefault(require("path"));
+var _configurationManagement = require("@dependency/configurationManagement");
+var _listDirectoryContent = require("@dependency/listDirectoryContent");
+var _util = _interopRequireDefault(require("util"));
 
-export async function scriptLookup({ 
-    script,  // [ string | object | array of objects ] the path of script directory or array of objects, where objects can represent directories or module paths.
-    projectRootPath, 
-    scriptKeyToInvoke 
-}) {
-    let scriptConfig, scriptFileConfigArray, scriptDirectoryPathArray;
-    switch (typeof script) {
-        case 'string':
-            scriptConfig = { type: 'script', path: script }
-        break;
-        case 'object':
+async function scriptLookup({
+  script,
+  projectRootPath,
+  scriptKeyToInvoke })
+{
+  let scriptConfig, scriptFileConfigArray, scriptDirectoryPathArray;
+  switch (typeof script) {
+    case 'string':
+      scriptConfig = { type: 'script', path: script };
+      break;
+    case 'object':
 
-            // scriptObject.type == 'module' for a single module path
-            scriptFileConfigArray = script
-                .filter(scriptObject => scriptObject.type != 'directory')
-            // change relative path to absolute
-            for (let index in scriptFileConfigArray) {
-                if(scriptFileConfigArray[index].path) {
-                    scriptFileConfigArray[index].path = resolveConfigOptionToAbsolutePath({ optionPath: scriptFileConfigArray[index].path, rootPath: projectRootPath })
-                } else {
-                    // default entrypoint file location if no path option present in configuration file. Try to find the key name as file name in default entrypointFolder.
-                    // scriptPath = path.join(`${configInstance.rootPath}`, `script`, `${scriptConfig.key}`) // .js file or folder module.
-                }
-            }
 
-            // Load the module with the matching name (either a folder module or file with js extension)
-            // get specific entrypoint configuration option (entrypoint.configKey)
-            scriptConfig = scriptFileConfigArray.find(scriptObject => scriptObject.key == scriptKeyToInvoke)
+      scriptFileConfigArray = script.
+      filter(scriptObject => scriptObject.type != 'directory');
 
-            // flatten structure of array of objects to array of strings/paths
-            scriptDirectoryPathArray = script
-                .filter(scriptObject => scriptObject.type == 'directory')
-                .reduce((accumulator, currentValue) => {
-                    accumulator.push(currentValue.path)
-                    return accumulator
-                }, [])
-            // change relative path to absolute
-            for (let index in scriptDirectoryPathArray) {
-                scriptDirectoryPathArray[index] = resolveConfigOptionToAbsolutePath({ optionPath: scriptDirectoryPathArray[index], rootPath: projectRootPath })
-            }
+      for (let index in scriptFileConfigArray) {
+        if (scriptFileConfigArray[index].path) {
+          scriptFileConfigArray[index].path = (0, _configurationManagement.resolveConfigOptionToAbsolutePath)({ optionPath: scriptFileConfigArray[index].path, rootPath: projectRootPath });
+        } else {
 
-            if(!scriptKeyToInvoke) { // if no arguments supplied, fallback to default command.
-                console.log("• No command argument passed. Please choose a script:")
-                if(script.length > 0) {
-                    console.log(script)
-                    let scriptInDirectory = listContent({ dir: scriptDirectoryPathArray, recursive: false })
-                    if(scriptInDirectory) {
-                        console.log(`\n Or \n`)
-                        scriptInDirectory
-                    }
-                } else { console.log(`• There are no script options, the array is empty. Add scripts to the configuration files.`) }
-                process.exit(1)
-            } 
 
-            if(!scriptConfig)
-                if(path.isAbsolute(scriptKeyToInvoke)) scriptConfig = { path: scriptKeyToInvoke }
-                else {
-                    // check script in directories (`scriptConfig.type == 'directory' configuration)
-                    let continueLoop = true;
-                    while(continueLoop && scriptDirectoryPathArray.length > 0) {
-                        let scriptDirectoryPath = scriptDirectoryPathArray.pop()
-                        let scriptPath = path.join(scriptDirectoryPath, `${scriptKeyToInvoke}`); // the specific module to run.
-                        // Load the module with the matching name (either a folder module or file with js extension)
-                        try {
-                            require.resolve(scriptPath)
-                            // in case resolved and found:
-                            continueLoop = false
-                            scriptConfig = { path: scriptPath }
-                        } catch (error) {
-                            // skip
-                        }
-                    }
+        }
+      }
 
-                    // if no path was found
-                    // Run scripts from modules by using a similar module resolving algorithm of `path.resolve()`, where:
-                    // - `yarn run scriptManager ./x/y/moduleZ ".functionY()"` will load the script from relative path
-                    // - similar to previous only using absolute path.
-                    // --> `yarn run scriptManager @dependency/moduleZ ".functionY()"` will actually search for the script as if it is a node_modules module` will load the script from relative path
-                    if(continueLoop) {
-                        try {
-                            let scriptPath = path.resolve(scriptKeyToInvoke)
-                            scriptConfig = { path: scriptPath }
-                        } catch (error) {
-                            // skip
-                        }
-                    }
-                }
-        
-        break;
-    }
 
-    if(!scriptConfig) {
-        let errorMessage = `❌ Reached switch default as scriptKeyToInvoke "${scriptKeyToInvoke}" does not match any option.`
-        let scriptListMessage = `scriptList: \n ${util.inspect(script, { colors: true, compact: false })}` // log available scripts 
-        throw new Error(`\x1b[41m${errorMessage}\x1b[0m \n ${scriptListMessage}`)
-    }
-    
-    return scriptConfig
+
+      scriptConfig = scriptFileConfigArray.find(scriptObject => scriptObject.key == scriptKeyToInvoke);
+
+
+      scriptDirectoryPathArray = script.
+      filter(scriptObject => scriptObject.type == 'directory').
+      reduce((accumulator, currentValue) => {
+        accumulator.push(currentValue.path);
+        return accumulator;
+      }, []);
+
+      for (let index in scriptDirectoryPathArray) {
+        scriptDirectoryPathArray[index] = (0, _configurationManagement.resolveConfigOptionToAbsolutePath)({ optionPath: scriptDirectoryPathArray[index], rootPath: projectRootPath });
+      }
+
+      if (!scriptKeyToInvoke) {
+        console.log("• No command argument passed. Please choose a script:");
+        if (script.length > 0) {
+          console.log(script);
+          let scriptInDirectory = (0, _listDirectoryContent.listContent)({ dir: scriptDirectoryPathArray, recursive: false });
+          if (scriptInDirectory) {
+            console.log(`\n Or \n`);
+            scriptInDirectory;
+          }
+        } else {console.log(`• There are no script options, the array is empty. Add scripts to the configuration files.`);}
+        process.exit(1);
+      }
+
+      if (!scriptConfig)
+      if (_path.default.isAbsolute(scriptKeyToInvoke)) scriptConfig = { path: scriptKeyToInvoke };else
+      {
+
+        let continueLoop = true;
+        while (continueLoop && scriptDirectoryPathArray.length > 0) {
+          let scriptDirectoryPath = scriptDirectoryPathArray.pop();
+          let scriptPath = _path.default.join(scriptDirectoryPath, `${scriptKeyToInvoke}`);
+
+          try {
+            require.resolve(scriptPath);
+
+            continueLoop = false;
+            scriptConfig = { path: scriptPath };
+          } catch (error) {
+
+          }
+        }
+
+
+
+
+
+
+        if (continueLoop) {
+          try {
+            let scriptPath = _path.default.resolve(scriptKeyToInvoke);
+            scriptConfig = { path: scriptPath };
+          } catch (error) {
+
+          }
+        }
+      }
+
+      break;}
+
+
+  if (!scriptConfig) {
+    let errorMessage = `❌ Reached switch default as scriptKeyToInvoke "${scriptKeyToInvoke}" does not match any option.`;
+    let scriptListMessage = `scriptList: \n ${_util.default.inspect(script, { colors: true, compact: false })}`;
+    throw new Error(`\x1b[41m${errorMessage}\x1b[0m \n ${scriptListMessage}`);
+  }
+
+  return scriptConfig;
 }
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NvdXJjZS9sb29rdXAuanMiXSwibmFtZXMiOlsic2NyaXB0TG9va3VwIiwic2NyaXB0IiwicHJvamVjdFJvb3RQYXRoIiwic2NyaXB0S2V5VG9JbnZva2UiLCJzY3JpcHRDb25maWciLCJzY3JpcHRGaWxlQ29uZmlnQXJyYXkiLCJzY3JpcHREaXJlY3RvcnlQYXRoQXJyYXkiLCJ0eXBlIiwicGF0aCIsImZpbHRlciIsInNjcmlwdE9iamVjdCIsImluZGV4Iiwib3B0aW9uUGF0aCIsInJvb3RQYXRoIiwiZmluZCIsImtleSIsInJlZHVjZSIsImFjY3VtdWxhdG9yIiwiY3VycmVudFZhbHVlIiwicHVzaCIsImNvbnNvbGUiLCJsb2ciLCJsZW5ndGgiLCJzY3JpcHRJbkRpcmVjdG9yeSIsImRpciIsInJlY3Vyc2l2ZSIsInByb2Nlc3MiLCJleGl0IiwiaXNBYnNvbHV0ZSIsImNvbnRpbnVlTG9vcCIsInNjcmlwdERpcmVjdG9yeVBhdGgiLCJwb3AiLCJzY3JpcHRQYXRoIiwiam9pbiIsInJlcXVpcmUiLCJyZXNvbHZlIiwiZXJyb3IiLCJlcnJvck1lc3NhZ2UiLCJzY3JpcHRMaXN0TWVzc2FnZSIsInV0aWwiLCJpbnNwZWN0IiwiY29sb3JzIiwiY29tcGFjdCIsIkVycm9yIl0sIm1hcHBpbmdzIjoib01BQUE7QUFDQTtBQUNBO0FBQ0E7O0FBRU8sZUFBZUEsWUFBZixDQUE0QjtBQUMvQkMsRUFBQUEsTUFEK0I7QUFFL0JDLEVBQUFBLGVBRitCO0FBRy9CQyxFQUFBQSxpQkFIK0IsRUFBNUI7QUFJSjtBQUNDLE1BQUlDLFlBQUosRUFBa0JDLHFCQUFsQixFQUF5Q0Msd0JBQXpDO0FBQ0EsVUFBUSxPQUFPTCxNQUFmO0FBQ0ksU0FBSyxRQUFMO0FBQ0lHLE1BQUFBLFlBQVksR0FBRyxFQUFFRyxJQUFJLEVBQUUsUUFBUixFQUFrQkMsSUFBSSxFQUFFUCxNQUF4QixFQUFmO0FBQ0o7QUFDQSxTQUFLLFFBQUw7OztBQUdJSSxNQUFBQSxxQkFBcUIsR0FB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LEtBQVAsRUFBYzs7QUFFZjtBQUNKOzs7Ozs7O0FBT0QsWUFBR1AsWUFBSCxFQUFpQjtBQUNiLGNBQUk7QUFDQSxnQkFBSUcsVUFBVSxHQUFHeEIsY0FBSzJCLE9BQUwsQ0FBYWhDLGlCQUFiLENBQWpCO0FBQ0FDLFlBQUFBLFlBQVksR0FBRyxFQUFFSSxJQUFJLEVBQUV3QixVQUFSLEVBQWY7QUFDSCxXQUhELENBR0UsT0FBT0ksS0FBUCxFQUFjOztBQUVmO0FBQ0o7QUFDSjs7QUFFVCxZQWxGSjs7O0FBcUZBLE1BQUcsQ0FBQ2hDLFlBQUosRUFBa0I7QUFDZCxRQUFJaUMsWUFBWSxHQUFJLGtEQUFpRGxDLGlCQUFrQiw4QkFBdkY7QUFDQSxRQUFJbUMsaUJBQWlCLEdBQUksa0JBQWlCQyxjQUFLQyxPQUFMLENBQWF2QyxNQUFiLEVBQXFCLEVBQUV3QyxNQUFNLEVBQUUsSUFBVixFQUFnQkMsT0FBTyxFQUFFLEtBQXpCLEVBQXJCLENBQXVELEVBQWpHO0FBQ0EsVUFBTSxJQUFJQyxLQUFKLENBQVcsV0FBVU4sWUFBYSxjQUFhQyxpQkFBa0IsRUFBakUsQ0FBTjtBQUNIOztBQUVELFNBQU9sQyxZQUFQO0FBQ0giLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgcGF0aCBmcm9tICdwYXRoJ1xuaW1wb3J0IHsgcmVzb2x2ZUNvbmZpZ09wdGlvblRvQWJzb2x1dGVQYXRoIH0gZnJvbSAnQGRlcGVuZGVuY3kvY29uZmlndXJhdGlvbk1hbmFnZW1lbnQnXG5pbXBvcnQgeyBsaXN0Q29udGVudCB9IGZyb20gJ0BkZXBlbmRlbmN5L2xpc3REaXJlY3RvcnlDb250ZW50J1xuaW1wb3J0IHV0aWwgZnJvbSAndXRpbCdcblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHNjcmlwdExvb2t1cCh7IFxuICAgIHNjcmlwdCwgIC8vIFsgc3RyaW5nIHwgb2JqZWN0IHwgYXJyYXkgb2Ygb2JqZWN0cyBdIHRoZSBwYXRoIG9mIHNjcmlwdCBkaXJlY3Rvcnkgb3IgYXJyYXkgb2Ygb2JqZWN0cywgd2hlcmUgb2JqZWN0cyBjYW4gcmVwcmVzZW50IGRpcmVjdG9yaWVzIG9yIG1vZHVsZSBwYXRocy5cbiAgICBwcm9qZWN0Um9vdFBhdGgsIFxuICAgIHNjcmlwdEtleVRvSW52b2tlIFxufSkge1xuICAgIGxldCBzY3JpcHRDb25maWcsIHNjcmlwdEZpbGVDb25maWdBcnJheSwgc2NyaXB0RGlyZWN0b3J5UGF0aEFycmF5O1xuICAgIHN3aXRjaCAodHlwZW9mIHNjcmlwdCkge1xuICAgICAgICBjYXNlICdzdHJpbmcnOlxuICAgICAgICAgICAgc2NyaXB0Q29uZmlnID0geyB0eXBlOiAnc2NyaXB0JywgcGF0aDogc2NyaXB0IH1cbiAgICAgICAgYnJlYWs7XG4gICAgICAgIGNhc2UgJ29iamVjdCc6XG5cbiAgICAgICAgICAgIC8vIHNjcmlwdE9iamVjdC50eXBlID09ICdtb2R1bGUnIGZvciBhIHNpbmdsZSBtb2R1bGUgcGF0aFxuICAgICAgICAgICAgc2NyaXB0RmlsZUNvbmZpZ0FycmF5ID0gc2NyaXB0XG4gICAgICAgICAgICAgICAgLmZpbHRlcihzY3JpcHRPYmplY3QgPT4gc2NyaXB0T2JqZWN0LnR5cGUgIT0gJ2RpcmVjdG9yeScpXG4gICAgICAgICAgICAvLyBjaGFuZ2UgcmVsYXRpdmUgcGF0aCB0byBhYnNvbHV0ZVxuICAgICAgICAgICAgZm9yIChsZXQgaW5kZXggaW4gc2NyaXB0RmlsZUNvbmZpZ0FycmF5KSB7XG4gICAgICAgICAgICAgICAgaWYoc2NyaXB0RmlsZUNvbmZpZ0FycmF5W2luZGV4XS5wYXRoKSB7XG4gICAgICAgICAgICAgICAgICAgIHNjcmlwdEZpbGVDb25maWdBcnJheVtpbmRleF0ucGF0aCA9IHJlc29sdmVDb25maWdPcHRpb25Ub0Fic29sdXRlUGF0aCh7IG9wdGlvblBhdGg6IHNjcmlwdEZpbGVDb25maWdBcnJheVtpbmRleF0ucGF0aCwgcm9vdFBhdGg6IHByb2plY3RSb290UGF0aCB9KVxuICAgICAgICAgICAgICAgIH0gZWxzZSB7XG4gICAgICAgICAgICAgICAgICAgIC8vIGRlZmF1bHQgZW50cnlwb2ludCBmaWxlIGxvY2F0aW9uIGlmIG5vIHBhdGggb3B0aW9uIHByZXNlbnQgaW4gY29uZmlndXJhdGlvbiBmaWxlLiBUcnkgdG8gZmluZCB0aGUga2V5IG5hbWUgYXMgZmlsZSBuYW1lIGluIGRlZmF1bHQgZW50cnlwb2ludEZvbGRlci5cbiAgICAgICAgICAgICAgICAgICAgLy8gc2NyaXB0UGF0aCA9IHBhdGguam9pbihgJHtjb25maWdJbnN0YW5jZS5yb290UGF0aH1gLCBgc2NyaXB0YCwgYCR7c2NyaXB0Q29uZmlnLmtleX1gKSAvLyAuanMgZmlsZSBvciBmb2xkZXIgbW9kdWxlLlxuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgIH1cblxuICAgICAgICAgICAgLy8gTG9hZCB0aGUgbW9kdWxlIHdpdGggdGhlIG1hdGNoaW5nIG5hbWUgKGVpdGhlciBhIGZvbGRlciBtb2R1bGUgb3IgZmlsZSB3aXRoIGpzIGV4dGVuc2lvbilcbiAgICAgICAgICAgIC8vIGdldCBzcGVjaWZpYyBlbnRyeXBvaW50IGNvbmZpZ3VyYXRpb24gb3B0aW9uIChlbnRyeXBvaW50LmNvbmZpZ0tleSlcbiAgICAgICAgICAgIHNjcmlwdENvbmZpZyA9IHNjcmlwdEZpbGVDb25maWdBcnJheS5maW5kKHNjcmlwdE9iamVjdCA9PiBzY3JpcHRPYmplY3Qua2V5ID09IHNjcmlwdEtleVRvSW52b2tlKVxuXG4gICAgICAgICAgICAvLyBmbGF0dGVuIHN0cnVjdHVyZSBvZiBhcnJheSBvZiBvYmplY3RzIHRvIGFycmF5IG9mIHN0cmluZ3MvcGF0aHNcbiAgICAgICAgICAgIHNjcmlwdERpcmVjdG9yeVBhdGhBcnJheSA9IHNjcmlwdFxuICAgICAgICAgICAgICAgIC5maWx0ZXIoc2NyaXB0T2JqZWN0ID0+IHNjcmlwdE9iamVjdC50eXBlID09ICdkaXJlY3RvcnknKVxuICAgICAgICAgICAgICAgIC5yZWR1Y2UoKGFjY3VtdWxhdG9yLCBjdXJyZW50VmFsdWUpID0+IHtcbiAgICAgICAgICAgICAgICAgICAgYWNjdW11bGF0b3IucHVzaChjdXJyZW50VmFsdWUucGF0aClcbiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIGFjY3VtdWxhdG9yXG4gICAgICAgICAgICAgICAgfSwgW10pXG4gICAgICAgICAgICAvLyBjaGFuZ2UgcmVsYXRpdmUgcGF0aCB0byBhYnNvbHV0ZVxuICAgICAgICAgICAgZm9yIChsZXQgaW5kZXggaW4gc2NyaXB0RGlyZWN0b3J5UGF0aEFycmF5KSB7XG4gICAgICAgICAgICAgICAgc2NyaXB0RGlyZWN0b3J5UGF0aEFycmF5W2luZGV4XSA9IHJlc29sdmVDb25maWdPcHRpb25Ub0Fic29sdXRlUGF0aCh7IG9wdGlvblBhdGg6IHNjcmlwdERpcmVjdG9yeVBhdGhBcnJheVtpbmRleF0sIHJvb3RQYXRoOiBwcm9qZWN0Um9vdFBhdGggfSlcbiAgICAgICAgICAgIH1cblxuICAgICAgICAgICAgaWYoIXNjcmlwdEtleVRvSW52b2tlKSB7IC8vIGlmIG5vIGFyZ3VtZW50cyBzdXBwbGllZCwgZmFsbGJhY2sgdG8gZGVmYXVsdCBjb21tYW5kLlxuICAgICAgICAgICAgICAgIGNvbnNvbGUubG9nKFwi4oCiIE5vIGNvbW1hbmQgYXJndW1lbnQgcGFzc2VkLiBQbGVhc2UgY2hvb3NlIGEgc2NyaXB0OlwiKVxuICAgICAgICAgICAgICAgIGlmKHNjcmlwdC5sZW5ndGggPiAwKSB7XG4gICAgICAgICAgICAgICAgICAgIGNvbnNvbGUubG9nKHNjcmlwdClcbiAgICAgICAgICAgICAgICAgICAgbGV0IHNjcmlwdEluRGlyZWN0b3J5ID0gbGlzdENvbnRlbnQoeyBkaXI6IHNjcmlwdERpcmVjdG9yeVBhdGhBcnJheSwgcmVjdXJzaXZlOiBmYWxzZSB9KVxuICAgICAgICAgICAgICAgICAgICBpZihzY3JpcHRJbkRpcmVjdG9yeSkge1xuICAgICAgICAgICAgICAgICAgICAgICAgY29uc29sZS5sb2coYFxcbiBPciBcXG5gKVxuICAgICAgICAgICAgICAgICAgICAgICAgc2NyaXB0SW5EaXJlY3RvcnlcbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIH0gZWxzZSB7IGNvbnNvbGUubG9nKGDigKIgVGhlcmUgYXJlIG5vIHNjcmlwdCBvcHRpb25zLCB0aGUgYXJyYXkgaXMgZW1wdHkuIEFkZCBzY3JpcHRzIHRvIHRoZSBjb25maWd1cmF0aW9uIGZpbGVzLmApIH1cbiAgICAgICAgICAgICAgICBwcm9jZXNzLmV4aXQoMSlcbiAgICAgICAgICAgIH0gXG5cbiAgICAgICAgICAgIGlmKCFzY3JpcHRDb25maWcpXG4gICAgICAgICAgICAgICAgaWYocGF0aC5pc0Fic29sdXRlKHNjcmlwdEtleVRvSW52b2tlKSkgc2NyaXB0Q29uZmlnID0geyBwYXRoOiBzY3JpcHRLZXlUb0ludm9rZSB9XG4gICAgICAgICAgICAgICAgZWxzZSB7XG4gICAgICAgICAgICAgICAgICAgIC8vIGNoZWNrIHNjcmlwdCBpbiBkaXJlY3RvcmllcyAoYHNjcmlwdENvbmZpZy50eXBlID09ICdkaXJlY3RvcnknIGNvbmZpZ3VyYXRpb24pXG4gICAgICAgICAgICAgICAgICAgIGxldCBjb250aW51ZUxvb3AgPSB0cnVlO1xuICAgICAgICAgICAgICAgICAgICB3aGlsZShjb250aW51ZUxvb3AgJiYgc2NyaXB0RGlyZWN0b3J5UGF0aEFycmF5Lmxlbmd0aCA+IDApIHtcbiAgICAgICAgICAgICAgICAgICAgICAgIGxldCBzY3JpcHREaXJlY3RvcnlQYXRoID0gc2NyaXB0RGlyZWN0b3J5UGF0aEFycmF5LnBvcCgpXG4gICAgICAgICAgICAgICAgICAgICAgICBsZXQgc2NyaXB0UGF0aCA9IHBhdGguam9pbihzY3JpcHREaXJlY3RvcnlQYXRoLCBgJHtzY3JpcHRLZXlUb0ludm9rZX1gKTsgLy8gdGhlIHNwZWNpZmljIG1vZHVsZSB0byBydW4uXG4gICAgICAgICAgICAgICAgICAgICAgICAvLyBMb2FkIHRoZSBtb2R1bGUgd2l0aCB0aGUgbWF0Y2hpbmcgbmFtZSAoZWl0aGVyIGEgZm9sZGVyIG1vZHVsZSBvciBmaWxlIHdpdGgganMgZXh0ZW5zaW9uKVxuICAgICAgICAgICAgICAgICAgICAgICAgdHJ5IHtcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICByZXF1aXJlLnJlc29sdmUoc2NyaXB0UGF0aClcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAvLyBpbiBjYXNlIHJlc29sdmVkIGFuZCBmb3VuZDpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb250aW51ZUxvb3AgPSBmYWxzZVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNjcmlwdENvbmZpZyA9IHsgcGF0aDogc2NyaXB0UGF0aCB9XG4gICAgICAgICAgICAgICAgICAgICAgICB9IGNhdGNoIChlcnJvcikge1xuICAgICAgICAgICAgICAgICAgICAgICAgICAgIC8vIHNraXBcbiAgICAgICAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICAgICAgfVxuXG4gICAgICAgICAgICAgICAgICAgIC8vIGlmIG5vIHBhdGggd2FzIGZvdW5kXG4gICAgICAgICAgICAgICAgICAgIC8vIFJ1biBzY3JpcHRzIGZyb20gbW9kdWxlcyBieSB1c2luZyBhIHNpbWlsYXIgbW9kdWxlIHJlc29sdmluZyBhbGdvcml0aG0gb2YgYHBhdGgucmVzb2x2ZSgpYCwgd2hlcmU6XG4gICAgICAgICAgICAgICAgICAgIC8vIC0gYHlhcm4gcnVuIHNjcmlwdE1hbmFnZXIgLi94L3kvbW9kdWxlWiBcIi5mdW5jdGlvblkoKVwiYCB3aWxsIGxvYWQgdGhlIHNjcmlwdCBmcm9tIHJlbGF0aXZlIHBhdGhcbiAgICAgICAgICAgICAgICAgICAgLy8gLSBzaW1pbGFyIHRvIHByZXZpb3VzIG9ubHkgdXNpbmcgYWJzb2x1dGUgcGF0aC5cbiAgICAgICAgICAgICAgICAgICAgLy8gLS0+IGB5YXJuIHJ1biBzY3JpcHRNYW5hZ2VyIEBkZXBlbmRlbmN5L21vZHVsZVogXCIuZnVuY3Rpb25ZKClcImAgd2lsbCBhY3R1YWxseSBzZWFyY2ggZm9yIHRoZSBzY3JpcHQgYXMgaWYgaXQgaXMgYSBub2RlX21vZHVsZXMgbW9kdWxlYCB3aWxsIGxvYWQgdGhlIHNjcmlwdCBmcm9tIHJlbGF0aXZlIHBhdGhcbiAgICAgICAgICAgICAgICAgICAgaWYoY29udGludWVMb29wKSB7XG4gICAgICAgICAgICAgICAgICAgICAgICB0cnkge1xuICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxldCBzY3JpcHRQYXRoID0gcGF0aC5yZXNvbHZlKHNjcmlwdEtleVRvSW52b2tlKVxuICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNjcmlwdENvbmZpZyA9IHsgcGF0aDogc2NyaXB0UGF0aCB9XG4gICAgICAgICAgICAgICAgICAgICAgICB9IGNhdGNoIChlcnJvcikge1xuICAgICAgICAgICAgICAgICAgICAgICAgICAgIC8vIHNraXBcbiAgICAgICAgICAgICAgICAgICAgICAgIH1cbiAgICAgICAgICAgICAgICAgICAgfVxuICAgICAgICAgICAgICAgIH1cbiAgICAgICAgXG4gICAgICAgIGJyZWFrO1xuICAgIH1cblxuICAgIGlmKCFzY3JpcHRDb25maWcpIHtcbiAgICAgICAgbGV0IGVycm9yTWVzc2FnZSA9IGDinYwgUmVhY2hlZCBzd2l0Y2ggZGVmYXVsdCBhcyBzY3JpcHRLZXlUb0ludm9rZSBcIiR7c2NyaXB0S2V5VG9JbnZva2V9XCIgZG9lcyBub3QgbWF0Y2ggYW55IG9wdGlvbi5gXG4gICAgICAgIGxldCBzY3JpcHRMaXN0TWVzc2FnZSA9IGBzY3JpcHRMaXN0OiBcXG4gJHt1dGlsLmluc3BlY3Qoc2NyaXB0LCB7IGNvbG9yczogdHJ1ZSwgY29tcGFjdDogZmFsc2UgfSl9YCAvLyBsb2cgYXZhaWxhYmxlIHNjcmlwdHMgXG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgXFx4MWJbNDFtJHtlcnJvck1lc3NhZ2V9XFx4MWJbMG0gXFxuICR7c2NyaXB0TGlzdE1lc3NhZ2V9YClcbiAgICB9XG4gICAgXG4gICAgcmV0dXJuIHNjcmlwdENvbmZpZ1xufVxuIl19
