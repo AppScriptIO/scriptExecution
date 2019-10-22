@@ -75,6 +75,16 @@ export async function scriptLookup({
                             // skip
                         }
                     }
+
+                    // if no path was found
+                    if(continueLoop) {
+                        try {
+                            let scriptPath = path.resolve(scriptKeyToInvoke)
+                            scriptConfig = { path: scriptPath }
+                        } catch (error) {
+                            // skip
+                        }
+                    }
                 }
         
         break;
