@@ -77,6 +77,10 @@ export async function scriptLookup({
                     }
 
                     // if no path was found
+                    // Run scripts from modules by using a similar module resolving algorithm of `path.resolve()`, where:
+                    // - `yarn run scriptManager ./x/y/moduleZ ".functionY()"` will load the script from relative path
+                    // - similar to previous only using absolute path.
+                    // --> `yarn run scriptManager @dependency/moduleZ ".functionY()"` will actually search for the script as if it is a node_modules module` will load the script from relative path
                     if(continueLoop) {
                         try {
                             let scriptPath = path.resolve(scriptKeyToInvoke)
