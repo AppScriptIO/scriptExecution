@@ -1,6 +1,6 @@
 {
 	"name": "@dependency/scriptExecution",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"main": "./entrypoint/programmaticAPI",
 	"dependencies": {
 		"@dependency/JSModuleTypeCheck": "https://github.com/AppScriptIO/JSModuleTypeCheck#semver:^1.x.x",
