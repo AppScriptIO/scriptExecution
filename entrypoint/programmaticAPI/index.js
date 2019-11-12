@@ -1,7 +1,9 @@
-const projectConfig = require('../../configuration'), path = require('path'), filesystem = require('fs')
+const projectConfig = require('../../configuration'),
+  path = require('path'),
+  filesystem = require('fs')
 
 // • Run
-if(filesystem.existsSync(projectConfig.directory.distribution)) {
+if (filesystem.existsSync(projectConfig.directory.distribution)) {
   module.exports = require(projectConfig.directory.distribution)
 } else {
   // • Transpilation (babelJSCompiler)
