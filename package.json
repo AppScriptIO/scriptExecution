@@ -2,6 +2,11 @@
 	"name": "@dependency/scriptExecution",
 	"version": "1.0.3",
 	"main": "./entrypoint/programmaticAPI",
+	"scripts": {
+		"setup": "yarn install --production=false",
+		"test": "./test/entrypoint.test.js",
+		"buildAndRelease": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildAndRelease.moduleProject({})\""
+	},
 	"dependencies": {
 		"@dependency/JSModuleTypeCheck": "http://github.com/AppScriptIO/JSModuleTypeCheck#semver:^1.x.x",
 		"@dependency/configurationManagement": "http://github.com/AppScriptIO/configurationManagement#semver:^1.x.x",
@@ -14,10 +19,5 @@
 		"@dependency/javascriptTranspilation": "http://github.com/AppScriptIO/javascriptTranspilation#semver:^1.x.x",
 		"@dependency/scriptManager": "http://github.com/AppScriptIO/scriptManager#semver:^1.x.x",
 		"typescript": "^3.3.3333"
-	},
-	"scripts": {
-		"setup": "yarn install --production=false",
-		"test": "./test/entrypoint.test.js",
-		"buildAndRelease": "yarn run scriptManager shouldCompileScript=true JSProject/buildAndRelease \".moduleProject({})\""
 	}
 }
