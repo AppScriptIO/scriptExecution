@@ -1,6 +1,6 @@
 {
 	"name": "@dependency/scriptExecution",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"main": "./entrypoint/programmaticAPI",
 	"scripts": {
 		"setup": "yarn install --production=false",
