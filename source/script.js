@@ -1,17 +1,13 @@
-/**
- * CLI tool that calls other script according to passed argument commands. Acts as a switcher or adapter to receiving command-line arguments/commands.
- * For managing the the development, build, & testing of this project.
- * USAGE:
- * • ./entrypoint [build|run] entrypointConfigurationPath=./entrypoint/configuration.js entrypointConfigurationKey=[run | install | build | buildContainerManager/buildEnvironmentImage ] dockerImageTag=X dockerhubUser=x dockerhubPass=x [dockerImageName=x]
- */
-import operatingSystem from 'os'
-const osUsername = operatingSystem.userInfo().username
-import filesystem from 'fs'
-import assert from 'assert'
-import { scriptLookup } from './lookup.js'
-import { singleScriptExecution } from './execute.js'
+"use strict";var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, "lookup", { enumerable: true, get: function () {return _lookup.scriptLookup;} });Object.defineProperty(exports, "execute", { enumerable: true, get: function () {return _execute.singleScriptExecution;} });
 
-/**
- * read configuration option `script` and deal with the different options to execute a script that is requested `scriptKeyToInvoke`
- */
-export { singleScriptExecution as execute, scriptLookup as lookup }
+
+
+
+
+var _os = _interopRequireDefault(require("os"));
+
+
+
+var _lookup = require("./lookup.js");
+var _execute = require("./execute.js");const osUsername = _os.default.userInfo().username;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NvdXJjZS9zY3JpcHQuanMiXSwibmFtZXMiOlsib3NVc2VybmFtZSIsIm9wZXJhdGluZ1N5c3RlbSIsInVzZXJJbmZvIiwidXNlcm5hbWUiXSwibWFwcGluZ3MiOiI7Ozs7OztBQU1BOzs7O0FBSUE7QUFDQSx1Q0FKQSxNQUFNQSxVQUFVLEdBQUdDLFlBQWdCQyxRQUFoQixHQUEyQkMsUUFBOUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIENMSSB0b29sIHRoYXQgY2FsbHMgb3RoZXIgc2NyaXB0IGFjY29yZGluZyB0byBwYXNzZWQgYXJndW1lbnQgY29tbWFuZHMuIEFjdHMgYXMgYSBzd2l0Y2hlciBvciBhZGFwdGVyIHRvIHJlY2VpdmluZyBjb21tYW5kLWxpbmUgYXJndW1lbnRzL2NvbW1hbmRzLlxuICogRm9yIG1hbmFnaW5nIHRoZSB0aGUgZGV2ZWxvcG1lbnQsIGJ1aWxkLCAmIHRlc3Rpbmcgb2YgdGhpcyBwcm9qZWN0LlxuICogVVNBR0U6XG4gKiDigKIgLi9lbnRyeXBvaW50IFtidWlsZHxydW5dIGVudHJ5cG9pbnRDb25maWd1cmF0aW9uUGF0aD0uL2VudHJ5cG9pbnQvY29uZmlndXJhdGlvbi5qcyBlbnRyeXBvaW50Q29uZmlndXJhdGlvbktleT1bcnVuIHwgaW5zdGFsbCB8IGJ1aWxkIHwgYnVpbGRDb250YWluZXJNYW5hZ2VyL2J1aWxkRW52aXJvbm1lbnRJbWFnZSBdIGRvY2tlckltYWdlVGFnPVggZG9ja2VyaHViVXNlcj14IGRvY2tlcmh1YlBhc3M9eCBbZG9ja2VySW1hZ2VOYW1lPXhdXG4gKi9cbmltcG9ydCBvcGVyYXRpbmdTeXN0ZW0gZnJvbSAnb3MnXG5jb25zdCBvc1VzZXJuYW1lID0gb3BlcmF0aW5nU3lzdGVtLnVzZXJJbmZvKCkudXNlcm5hbWVcbmltcG9ydCBmaWxlc3lzdGVtIGZyb20gJ2ZzJ1xuaW1wb3J0IGFzc2VydCBmcm9tICdhc3NlcnQnXG5pbXBvcnQgeyBzY3JpcHRMb29rdXAgfSBmcm9tICcuL2xvb2t1cC5qcydcbmltcG9ydCB7IHNpbmdsZVNjcmlwdEV4ZWN1dGlvbiB9IGZyb20gJy4vZXhlY3V0ZS5qcydcblxuLyoqXG4gKiByZWFkIGNvbmZpZ3VyYXRpb24gb3B0aW9uIGBzY3JpcHRgIGFuZCBkZWFsIHdpdGggdGhlIGRpZmZlcmVudCBvcHRpb25zIHRvIGV4ZWN1dGUgYSBzY3JpcHQgdGhhdCBpcyByZXF1ZXN0ZWQgYHNjcmlwdEtleVRvSW52b2tlYFxuICovXG5leHBvcnQgeyBzaW5nbGVTY3JpcHRFeGVjdXRpb24gYXMgZXhlY3V0ZSwgc2NyaXB0TG9va3VwIGFzIGxvb2t1cCB9XG4iXX0=
