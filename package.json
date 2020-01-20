@@ -5,16 +5,17 @@
 	"scripts": {
 		"setup": "yarn install --production=false",
 		"test": "./test/entrypoint.test.js",
+		"build": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildSourceCode.moduleProject({}, {compile:[/**'./test'*/]})\"",
 		"buildAndRelease": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildAndRelease.moduleProject({})\""
 	},
 	"dependencies": {
 		"@dependency/JSModuleTypeCheck": "http://github.com/AppScriptIO/JSModuleTypeCheck#semver:^1.x.x",
 		"@dependency/configurationManagement": "http://github.com/AppScriptIO/configurationManagement#semver:^1.x.x",
 		"@dependency/installNodeJSModule": "http://github.com/AppScriptIO/installNodeJSModule#semver:^1.x.x",
-		"@dependency/listDirectoryContent": "http://github.com/AppScriptIO/listDirectoryContent#semver:^1.x.x"
+		"@dependency/resolveAndLookupPath": "http://github.com/AppScriptIO/resolveAndLookupPath#semver:^1.x.x"
 	},
 	"devDependencies": {
-		"@dependency/deploymentScript": "http://github.com/AppScriptIO/deploymentScript#semver:^1.x.x",
+		"@dependency/deploymentScript": "http://github.com/AppScriptIO/deploymentScript#semver:^2.x.x",
 		"@dependency/javascriptStaticAnalysis": "http://github.com/AppScriptIO/javascriptStaticAnalysis#semver:^1.x.x",
 		"@dependency/javascriptTranspilation": "http://github.com/AppScriptIO/javascriptTranspilation#semver:^1.x.x",
 		"@dependency/scriptManager": "http://github.com/AppScriptIO/scriptManager#semver:^1.x.x",
