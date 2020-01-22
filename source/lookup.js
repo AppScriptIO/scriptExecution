@@ -1,6 +1,6 @@
 import path from 'path'
 import { resolveConfigOptionToAbsolutePath } from '@dependency/configurationManagement'
-import { listContent } from '@dependency/resolveAndLookupPath'
+import { listContent } from '@dependency/handleFilesystemOperation'
 import util from 'util'
 
 export async function scriptLookup({
