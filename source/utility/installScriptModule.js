@@ -1,27 +1,28 @@
-import { installModuleMultiple, isFileOrFolderJSModule } from '@dependency/handleModuleSystem'
-import findFileWalkingUpDirectory from 'find-up'
+"use strict";var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");var _handleModuleSystem = require("@dependency/handleModuleSystem");
+var _findUp = _interopRequireDefault(require("find-up"));
 
 async function installEntrypointModule({ entrypointModulePath }) {
-    // install node_modules for entrypoint module if not present in case a folder is being passed.
-    // ISSUE - installing node_modules of and from within running module, will fail to load the newlly created moduules as node_modules path was already read by the nodejs application.
-    let installDirectory,
-        moduleType = isFileOrFolderJSModule({ modulePath: entrypointModulePath });
-    switch(moduleType) {
-        case 'directory':
-            installDirectory = entrypointModulePath
-        break;
-        case 'file':
-            installDirectory = path.dirname(entrypointModulePath) 
-        break;
+
+
+  let installDirectory,
+  moduleType = (0, _handleModuleSystem.isFileOrFolderJSModule)({ modulePath: entrypointModulePath });
+  switch (moduleType) {
+    case 'directory':
+      installDirectory = entrypointModulePath;
+      break;
+    case 'file':
+      installDirectory = path.dirname(entrypointModulePath);
+      break;}
+
+
+
+  let closestPackageJsonPath = await (0, _findUp.default)('package.json', { cwd: installDirectory }),
+  closestPackageJsonDirectoryPath = closestPackageJsonPath ? path.dirname(closestPackageJsonPath) : false;
+  if (closestPackageJsonDirectoryPath) {
+    let isNodeModuleInstallExist = filesystem.existsSync(path.join(closestPackageJsonDirectoryPath, `node_modules`));
+    if (!isNodeModuleInstallExist) {
+      await (0, _handleModuleSystem.installModuleMultiple)({ installPathArray: [installDirectory] });
     }
-    // Install node_modules
-    // in case package.json doesn't exist in script's path, then check upper directories for the closest package.json and install if no node_modules located. This is because the yarn install if doesn't detect package.json file it will search for it in the upper directories and install the closest one.
-    let closestPackageJsonPath = await findFileWalkingUpDirectory('package.json', { cwd: installDirectory }),
-        closestPackageJsonDirectoryPath = (closestPackageJsonPath) ? path.dirname(closestPackageJsonPath) : false;
-    if(closestPackageJsonDirectoryPath) {
-        let isNodeModuleInstallExist = filesystem.existsSync(path.join(closestPackageJsonDirectoryPath, `node_modules`))
-        if (!isNodeModuleInstallExist) {
-            await installModuleMultiple({ installPathArray: [ installDirectory ] }) // install modules
-        }
-    }
+  }
 }
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS91dGlsaXR5L2luc3RhbGxTY3JpcHRNb2R1bGUuanMiXSwibmFtZXMiOlsiaW5zdGFsbEVudHJ5cG9pbnRNb2R1bGUiLCJlbnRyeXBvaW50TW9kdWxlUGF0aCIsImluc3RhbGxEaXJlY3RvcnkiLCJtb2R1bGVUeXBlIiwibW9kdWxlUGF0aCIsInBhdGgiLCJkaXJuYW1lIiwiY2xvc2VzdFBhY2thZ2VKc29uUGF0aCIsImN3ZCIsImNsb3Nlc3RQYWNrYWdlSnNvbkRpcmVjdG9yeVBhdGgiLCJpc05vZGVNb2R1bGVJbnN0YWxsRXhpc3QiLCJmaWxlc3lzdGVtIiwiZXhpc3RzU3luYyIsImpvaW4iLCJpbnN0YWxsUGF0aEFycmF5Il0sIm1hcHBpbmdzIjoia0dBQUE7QUFDQTs7QUFFQSxlQUFlQSx1QkFBZixDQUF1QyxFQUFFQyxvQkFBRixFQUF2QyxFQUFpRTs7O0FBRzdELE1BQUlDLGdCQUFKO0FBQ0lDLEVBQUFBLFVBQVUsR0FBRyxnREFBdUIsRUFBRUMsVUFBVSxFQUFFSCxvQkFBZCxFQUF2QixDQURqQjtBQUVBLFVBQU9FLFVBQVA7QUFDSSxTQUFLLFdBQUw7QUFDSUQsTUFBQUEsZ0JBQWdCLEdBQUdELG9CQUFuQjtBQUNKO0FBQ0EsU0FBSyxNQUFMO0FBQ0lDLE1BQUFBLGdCQUFnQixHQUFHRyxJQUFJLENBQUNDLE9BQUwsQ0FBYUwsb0JBQWIsQ0FBbkI7QUFDSixZQU5KOzs7O0FBVUEsTUFBSU0sc0JBQXNCLEdBQUcsTUFBTSxxQkFBMkIsY0FBM0IsRUFBMkMsRUFBRUMsR0FBRyxFQUFFTixnQkFBUCxFQUEzQyxDQUFuQztBQUNJTyxFQUFBQSwrQkFBK0IsR0FBSUYsc0JBQUQsR0FBMkJGLElBQUksQ0FBQ0MsT0FBTCxDQUFhQyxzQkFBYixDQUEzQixHQUFrRSxLQUR4RztBQUVBLE1BQUdFLCtCQUFILEVBQW9DO0FBQ2hDLFFBQUlDLHdCQUF3QixHQUFHQyxVQUFVLENBQUNDLFVBQVgsQ0FBc0JQLElBQUksQ0FBQ1EsSUFBTCxDQUFVSiwrQkFBVixFQUE0QyxjQUE1QyxDQUF0QixDQUEvQjtBQUNBLFFBQUksQ0FBQ0Msd0JBQUwsRUFBK0I7QUFDM0IsWUFBTSwrQ0FBc0IsRUFBRUksZ0JBQWdCLEVBQUUsQ0FBRVosZ0JBQUYsQ0FBcEIsRUFBdEIsQ0FBTjtBQUNIO0FBQ0o7QUFDSiIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGluc3RhbGxNb2R1bGVNdWx0aXBsZSwgaXNGaWxlT3JGb2xkZXJKU01vZHVsZSB9IGZyb20gJ0BkZXBlbmRlbmN5L2hhbmRsZU1vZHVsZVN5c3RlbSdcbmltcG9ydCBmaW5kRmlsZVdhbGtpbmdVcERpcmVjdG9yeSBmcm9tICdmaW5kLXVwJ1xuXG5hc3luYyBmdW5jdGlvbiBpbnN0YWxsRW50cnlwb2ludE1vZHVsZSh7IGVudHJ5cG9pbnRNb2R1bGVQYXRoIH0pIHtcbiAgICAvLyBpbnN0YWxsIG5vZGVfbW9kdWxlcyBmb3IgZW50cnlwb2ludCBtb2R1bGUgaWYgbm90IHByZXNlbnQgaW4gY2FzZSBhIGZvbGRlciBpcyBiZWluZyBwYXNzZWQuXG4gICAgLy8gSVNTVUUgLSBpbnN0YWxsaW5nIG5vZGVfbW9kdWxlcyBvZiBhbmQgZnJvbSB3aXRoaW4gcnVubmluZyBtb2R1bGUsIHdpbGwgZmFpbCB0byBsb2FkIHRoZSBuZXdsbHkgY3JlYXRlZCBtb2R1dWxlcyBhcyBub2RlX21vZHVsZXMgcGF0aCB3YXMgYWxyZWFkeSByZWFkIGJ5IHRoZSBub2RlanMgYXBwbGljYXRpb24uXG4gICAgbGV0IGluc3RhbGxEaXJlY3RvcnksXG4gICAgICAgIG1vZHVsZVR5cGUgPSBpc0ZpbGVPckZvbGRlckpTTW9kdWxlKHsgbW9kdWxlUGF0aDogZW50cnlwb2ludE1vZHVsZVBhdGggfSk7XG4gICAgc3dpdGNoKG1vZHVsZVR5cGUpIHtcbiAgICAgICAgY2FzZSAnZGlyZWN0b3J5JzpcbiAgICAgICAgICAgIGluc3RhbGxEaXJlY3RvcnkgPSBlbnRyeXBvaW50TW9kdWxlUGF0aFxuICAgICAgICBicmVhaztcbiAgICAgICAgY2FzZSAnZmlsZSc6XG4gICAgICAgICAgICBpbnN0YWxsRGlyZWN0b3J5ID0gcGF0aC5kaXJuYW1lKGVudHJ5cG9pbnRNb2R1bGVQYXRoKSBcbiAgICAgICAgYnJlYWs7XG4gICAgfVxuICAgIC8vIEluc3RhbGwgbm9kZV9tb2R1bGVzXG4gICAgLy8gaW4gY2FzZSBwYWNrYWdlLmpzb24gZG9lc24ndCBleGlzdCBpbiBzY3JpcHQncyBwYXRoLCB0aGVuIGNoZWNrIHVwcGVyIGRpcmVjdG9yaWVzIGZvciB0aGUgY2xvc2VzdCBwYWNrYWdlLmpzb24gYW5kIGluc3RhbGwgaWYgbm8gbm9kZV9tb2R1bGVzIGxvY2F0ZWQuIFRoaXMgaXMgYmVjYXVzZSB0aGUgeWFybiBpbnN0YWxsIGlmIGRvZXNuJ3QgZGV0ZWN0IHBhY2thZ2UuanNvbiBmaWxlIGl0IHdpbGwgc2VhcmNoIGZvciBpdCBpbiB0aGUgdXBwZXIgZGlyZWN0b3JpZXMgYW5kIGluc3RhbGwgdGhlIGNsb3Nlc3Qgb25lLlxuICAgIGxldCBjbG9zZXN0UGFja2FnZUpzb25QYXRoID0gYXdhaXQgZmluZEZpbGVXYWxraW5nVXBEaXJlY3RvcnkoJ3BhY2thZ2UuanNvbicsIHsgY3dkOiBpbnN0YWxsRGlyZWN0b3J5IH0pLFxuICAgICAgICBjbG9zZXN0UGFja2FnZUpzb25EaXJlY3RvcnlQYXRoID0gKGNsb3Nlc3RQYWNrYWdlSnNvblBhdGgpID8gcGF0aC5kaXJuYW1lKGNsb3Nlc3RQYWNrYWdlSnNvblBhdGgpIDogZmFsc2U7XG4gICAgaWYoY2xvc2VzdFBhY2thZ2VKc29uRGlyZWN0b3J5UGF0aCkge1xuICAgICAgICBsZXQgaXNOb2RlTW9kdWxlSW5zdGFsbEV4aXN0ID0gZmlsZXN5c3RlbS5leGlzdHNTeW5jKHBhdGguam9pbihjbG9zZXN0UGFja2FnZUpzb25EaXJlY3RvcnlQYXRoLCBgbm9kZV9tb2R1bGVzYCkpXG4gICAgICAgIGlmICghaXNOb2RlTW9kdWxlSW5zdGFsbEV4aXN0KSB7XG4gICAgICAgICAgICBhd2FpdCBpbnN0YWxsTW9kdWxlTXVsdGlwbGUoeyBpbnN0YWxsUGF0aEFycmF5OiBbIGluc3RhbGxEaXJlY3RvcnkgXSB9KSAvLyBpbnN0YWxsIG1vZHVsZXNcbiAgICAgICAgfVxuICAgIH1cbn0iXX0=
