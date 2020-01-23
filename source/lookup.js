@@ -1,5 +1,5 @@
 import path from 'path'
-import { resolveConfigOptionToAbsolutePath } from '@dependency/configurationManagement'
+import { resolveConfigOptionToAbsolutePath } from '@deployment/configurationManagement'
 import { listContent } from '@dependency/handleFilesystemOperation'
 import util from 'util'
 

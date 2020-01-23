@@ -1,23 +1,23 @@
 {
-	"name": "@dependency/scriptExecution",
-	"version": "1.0.6",
+	"name": "@deployment/scriptExecution",
+	"version": "2.0.1",
 	"main": "./entrypoint/programmaticAPI",
 	"scripts": {
 		"setup": "yarn install --production=false",
 		"test": "./test/entrypoint.test.js",
-		"build": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildSourceCode.moduleProject({}, {compile:[/**'./test'*/]})\"",
-		"buildAndRelease": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildAndRelease.moduleProject({})\""
+		"build": "yarn run scriptManager shouldCompileScript=true @deployment/deploymentScript \".buildSourceCode.moduleProject({}, {compile:[/**'./test'*/]})\"",
+		"buildAndRelease": "yarn run scriptManager shouldCompileScript=true @deployment/deploymentScript \".buildAndRelease.moduleProject({})\""
 	},
 	"dependencies": {
-		"@dependency/configurationManagement": "http://github.com/AppScriptIO/configurationManagement#semver:^1.x.x",
+		"@deployment/configurationManagement": "http://github.com/AppScriptIO/configurationManagement#semver:^2.x.x",
 		"@dependency/handleModuleSystem": "http://github.com/AppScriptIO/handleModuleSystem#semver:^2.x.x",
 		"@dependency/handleFilesystemOperation": "http://github.com/AppScriptIO/handleFilesystemOperation#semver:^2.x.x"
 	},
 	"devDependencies": {
-		"@dependency/deploymentScript": "http://github.com/AppScriptIO/deploymentScript#semver:^2.x.x",
-		"@dependency/javascriptStaticAnalysis": "http://github.com/AppScriptIO/javascriptStaticAnalysis#semver:^1.x.x",
-		"@dependency/javascriptTranspilation": "http://github.com/AppScriptIO/javascriptTranspilation#semver:^2.x.x",
-		"@dependency/scriptManager": "http://github.com/AppScriptIO/scriptManager#semver:^1.x.x",
+		"@deployment/deploymentScript": "http://github.com/AppScriptIO/deploymentScript#semver:^2.x.x",
+		"@deployment/javascriptStaticAnalysis": "http://github.com/AppScriptIO/javascriptStaticAnalysis#semver:^2.x.x",
+		"@deployment/javascriptTranspilation": "http://github.com/AppScriptIO/javascriptTranspilation#semver:^2.x.x",
+		"@deployment/scriptManager": "http://github.com/AppScriptIO/scriptManager#semver:^2.x.x",
 		"typescript": "^3.3.3333"
 	}
 }
