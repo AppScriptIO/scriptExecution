@@ -1,41 +1,42 @@
-import path from 'path'
-import assert from 'assert'
-import util from 'util'
-const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[33m\x1b[1m\x1b[7m', message: '\x1b[96m', italic: '\x1b[2m\x1b[3m', default: '\x1b[0m' }
+"use strict";var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");Object.defineProperty(exports, "__esModule", { value: true });exports.executeOnCall = executeOnCall;var _path = _interopRequireDefault(require("path"));
+var _assert = _interopRequireDefault(require("assert"));
+var _util = _interopRequireDefault(require("util"));
+const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[33m\x1b[1m\x1b[7m', message: '\x1b[96m', italic: '\x1b[2m\x1b[3m', default: '\x1b[0m' };
 
-/**
- * Execute `scriptCofnig.type == 'module'` i.e. value is exported.
- */
-export function executeOnCall({
+
+
+
+function executeOnCall({
   scriptPath,
   methodName,
   parameter = [],
-  adapterFunction = null, // the adapter must return a function where it encapsulates the specific needed implementation for the script.
-}) {
-  assert(path.isAbsolute(scriptPath), `• 'scriptPath' must be an absolute path to be executed.`)
-  console.log(`${style.italic}${style.titleGolden}%s${style.default} - %s`, `•[JS module]`, `Running ${scriptPath}`)
-  console.log(`\t\x1b[2m\x1b[3m%s\x1b[0m \x1b[95m%s\x1b[0m`, `File path:`, `${scriptPath}`)
-  let requiredModule = require(scriptPath)
-  let func // function to execute
+  adapterFunction = null })
+{
+  (0, _assert.default)(_path.default.isAbsolute(scriptPath), `• 'scriptPath' must be an absolute path to be executed.`);
+  console.log(`${style.italic}${style.titleGolden}%s${style.default} - %s`, `•[JS module]`, `Running ${scriptPath}`);
+  console.log(`\t\x1b[2m\x1b[3m%s\x1b[0m \x1b[95m%s\x1b[0m`, `File path:`, `${scriptPath}`);
+  let requiredModule = require(scriptPath);
+  let func;
 
   switch (typeof requiredModule) {
     case 'object':
-      assert(typeof requiredModule[methodName] == 'function', `• "${methodName}" must match property of required module and be a function: ${util.inspect(requiredModule)}`)
-      func = requiredModule[methodName]
-      break
+      (0, _assert.default)(typeof requiredModule[methodName] == 'function', `• "${methodName}" must match property of required module and be a function: ${_util.default.inspect(requiredModule)}`);
+      func = requiredModule[methodName];
+      break;
     case 'function':
-      func = requiredModule
-      break
+      func = requiredModule;
+      break;
     default:
-      let partialMessage = methodName ? 'object' : 'function'
-      throw new Error(`• Required script ${scriptPath} must be a ${partialMessage}, i.e. the script is expected to export a ${partialMessage}. Required script: ${util.inspect(requiredModule)}`)
-      break
-  }
+      let partialMessage = methodName ? 'object' : 'function';
+      throw new Error(`• Required script ${scriptPath} must be a ${partialMessage}, i.e. the script is expected to export a ${partialMessage}. Required script: ${_util.default.inspect(requiredModule)}`);
+      break;}
 
-  if (!Array.isArray(parameter)) parameter = [parameter]
+
+  if (!Array.isArray(parameter)) parameter = [parameter];
 
   if (adapterFunction) {
-    func = adapterFunction({ callback: func, args: parameter })
-    func()
-  } else func(...parameter) // execute function from module passing it the parameters.
+    func = adapterFunction({ callback: func, args: parameter });
+    func();
+  } else func(...parameter);
 }
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9leGVjdXRpb25BbGdvcml0aG0vZXhlY3V0ZU9uQ2FsbC5qcyJdLCJuYW1lcyI6WyJzdHlsZSIsInRpdGxlQ3lhbiIsInRpdGxlR29sZGVuIiwibWVzc2FnZSIsIml0YWxpYyIsImRlZmF1bHQiLCJleGVjdXRlT25DYWxsIiwic2NyaXB0UGF0aCIsIm1ldGhvZE5hbWUiLCJwYXJhbWV0ZXIiLCJhZGFwdGVyRnVuY3Rpb24iLCJwYXRoIiwiaXNBYnNvbHV0ZSIsImNvbnNvbGUiLCJsb2ciLCJyZXF1aXJlZE1vZHVsZSIsInJlcXVpcmUiLCJmdW5jIiwidXRpbCIsImluc3BlY3QiLCJwYXJ0aWFsTWVzc2FnZSIsIkVycm9yIiwiQXJyYXkiLCJpc0FycmF5IiwiY2FsbGJhY2siLCJhcmdzIl0sIm1hcHBpbmdzIjoic01BQUE7QUFDQTtBQUNBO0FBQ0EsTUFBTUEsS0FBSyxHQUFHLEVBQUVDLFNBQVMsRUFBRSxnQ0FBYixFQUErQ0MsV0FBVyxFQUFFLHdCQUE1RCxFQUFzRkMsT0FBTyxFQUFFLFVBQS9GLEVBQTJHQyxNQUFNLEVBQUUsZ0JBQW5ILEVBQXFJQyxPQUFPLEVBQUUsU0FBOUksRUFBZDs7Ozs7QUFLTyxTQUFTQyxhQUFULENBQXVCO0FBQzVCQyxFQUFBQSxVQUQ0QjtBQUU1QkMsRUFBQUEsVUFGNEI7QUFHNUJDLEVBQUFBLFNBQVMsR0FBRyxFQUhnQjtBQUk1QkMsRUFBQUEsZUFBZSxHQUFHLElBSlUsRUFBdkI7QUFLSjtBQUNELHVCQUFPQyxjQUFLQyxVQUFMLENBQWdCTCxVQUFoQixDQUFQLEVBQXFDLHlEQUFyQztBQUNBTSxFQUFBQSxPQUFPLENBQUNDLEdBQVIsQ0FBYSxHQUFFZCxLQUFLLENBQUNJLE1BQU8sR0FBRUosS0FBSyxDQUFDRSxXQUFZLEtBQUlGLEtBQUssQ0FBQ0ssT0FBUSxPQUFsRSxFQUEyRSxjQUEzRSxFQUEyRixXQUFVRSxVQUFXLEVBQWhIO0FBQ0FNLEVBQUFBLE9BQU8sQ0FBQ0MsR0FBUixDQUFhLDZDQUFiLEVBQTRELFlBQTVELEVBQTBFLEdBQUVQLFVBQVcsRUFBdkY7QUFDQSxNQUFJUSxjQUFjLEdBQUdDLE9BQU8sQ0FBQ1QsVUFBRCxDQUE1QjtBQUNBLE1BQUlVLElBQUo7O0FBRUEsVUFBUSxPQUFPRixjQUFmO0FBQ0UsU0FBSyxRQUFMO0FBQ0UsMkJBQU8sT0FBT0EsY0FBYyxDQUFDUCxVQUFELENBQXJCLElBQXFDLFVBQTVDLEVBQXlELE1BQUtBLFVBQVcsK0RBQThEVSxjQUFLQyxPQUFMLENBQWFKLGNBQWIsQ0FBNkIsRUFBcEs7QUFDQUUsTUFBQUEsSUFBSSxHQUFHRixjQUFjLENBQUNQLFVBQUQsQ0FBckI7QUFDQTtBQUNGLFNBQUssVUFBTDtBQUNFUyxNQUFBQSxJQUFJLEdBQUdGLGNBQVA7QUFDQTtBQUNGO0FBQ0UsVUFBSUssY0FBYyxHQUFHWixVQUFVLEdBQUcsUUFBSCxHQUFjLFVBQTdDO0FBQ0EsWUFBTSxJQUFJYSxLQUFKLENBQVcscUJBQW9CZCxVQUFXLGNBQWFhLGNBQWUsNkNBQTRDQSxjQUFlLHNCQUFxQkYsY0FBS0MsT0FBTCxDQUFhSixjQUFiLENBQTZCLEVBQW5MLENBQU47QUFDQSxZQVhKOzs7QUFjQSxNQUFJLENBQUNPLEtBQUssQ0FBQ0MsT0FBTixDQUFjZCxTQUFkLENBQUwsRUFBK0JBLFNBQVMsR0FBRyxDQUFDQSxTQUFELENBQVo7O0FBRS9CLE1BQUlDLGVBQUosRUFBcUI7QUFDbkJPLElBQUFBLElBQUksR0FBR1AsZUFBZSxDQUFDLEVBQUVjLFFBQVEsRUFBRVAsSUFBWixFQUFrQlEsSUFBSSxFQUFFaEIsU0FBeEIsRUFBRCxDQUF0QjtBQUNBUSxJQUFBQSxJQUFJO0FBQ0wsR0FIRCxNQUdPQSxJQUFJLENBQUMsR0FBR1IsU0FBSixDQUFKO0FBQ1IiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgcGF0aCBmcm9tICdwYXRoJ1xuaW1wb3J0IGFzc2VydCBmcm9tICdhc3NlcnQnXG5pbXBvcnQgdXRpbCBmcm9tICd1dGlsJ1xuY29uc3Qgc3R5bGUgPSB7IHRpdGxlQ3lhbjogJ1xceDFiWzMzbVxceDFiWzFtXFx4MWJbN21cXHgxYlszNm0nLCB0aXRsZUdvbGRlbjogJ1xceDFiWzMzbVxceDFiWzFtXFx4MWJbN20nLCBtZXNzYWdlOiAnXFx4MWJbOTZtJywgaXRhbGljOiAnXFx4MWJbMm1cXHgxYlszbScsIGRlZmF1bHQ6ICdcXHgxYlswbScgfVxuXG4vKipcbiAqIEV4ZWN1dGUgYHNjcmlwdENvZm5pZy50eXBlID09ICdtb2R1bGUnYCBpLmUuIHZhbHVlIGlzIGV4cG9ydGVkLlxuICovXG5leHBvcnQgZnVuY3Rpb24gZXhlY3V0ZU9uQ2FsbCh7XG4gIHNjcmlwdFBhdGgsXG4gIG1ldGhvZE5hbWUsXG4gIHBhcmFtZXRlciA9IFtdLFxuICBhZGFwdGVyRnVuY3Rpb24gPSBudWxsLCAvLyB0aGUgYWRhcHRlciBtdXN0IHJldHVybiBhIGZ1bmN0aW9uIHdoZXJlIGl0IGVuY2Fwc3VsYXRlcyB0aGUgc3BlY2lmaWMgbmVlZGVkIGltcGxlbWVudGF0aW9uIGZvciB0aGUgc2NyaXB0LlxufSkge1xuICBhc3NlcnQocGF0aC5pc0Fic29sdXRlKHNjcmlwdFBhdGgpLCBg4oCiICdzY3JpcHRQYXRoJyBtdXN0IGJlIGFuIGFic29sdXRlIHBhdGggdG8gYmUgZXhlY3V0ZWQuYClcbiAgY29uc29sZS5sb2coYCR7c3R5bGUuaXRhbGljfSR7c3R5bGUudGl0bGVHb2xkZW59JXMke3N0eWxlLmRlZmF1bHR9IC0gJXNgLCBg4oCiW0pTIG1vZHVsZV1gLCBgUnVubmluZyAke3NjcmlwdFBhdGh9YClcbiAgY29uc29sZS5sb2coYFxcdFxceDFiWzJtXFx4MWJbM20lc1xceDFiWzBtIFxceDFiWzk1bSVzXFx4MWJbMG1gLCBgRmlsZSBwYXRoOmAsIGAke3NjcmlwdFBhdGh9YClcbiAgbGV0IHJlcXVpcmVkTW9kdWxlID0gcmVxdWlyZShzY3JpcHRQYXRoKVxuICBsZXQgZnVuYyAvLyBmdW5jdGlvbiB0byBleGVjdXRlXG5cbiAgc3dpdGNoICh0eXBlb2YgcmVxdWlyZWRNb2R1bGUpIHtcbiAgICBjYXNlICdvYmplY3QnOlxuICAgICAgYXNzZXJ0KHR5cGVvZiByZXF1aXJlZE1vZHVsZVttZXRob2ROYW1lXSA9PSAnZnVuY3Rpb24nLCBg4oCiIFwiJHttZXRob2ROYW1lfVwiIG11c3QgbWF0Y2ggcHJvcGVydHkgb2YgcmVxdWlyZWQgbW9kdWxlIGFuZCBiZSBhIGZ1bmN0aW9uOiAke3V0aWwuaW5zcGVjdChyZXF1aXJlZE1vZHVsZSl9YClcbiAgICAgIGZ1bmMgPSByZXF1aXJlZE1vZHVsZVttZXRob2ROYW1lXVxuICAgICAgYnJlYWtcbiAgICBjYXNlICdmdW5jdGlvbic6XG4gICAgICBmdW5jID0gcmVxdWlyZWRNb2R1bGVcbiAgICAgIGJyZWFrXG4gICAgZGVmYXVsdDpcbiAgICAgIGxldCBwYXJ0aWFsTWVzc2FnZSA9IG1ldGhvZE5hbWUgPyAnb2JqZWN0JyA6ICdmdW5jdGlvbidcbiAgICAgIHRocm93IG5ldyBFcnJvcihg4oCiIFJlcXVpcmVkIHNjcmlwdCAke3NjcmlwdFBhdGh9IG11c3QgYmUgYSAke3BhcnRpYWxNZXNzYWdlfSwgaS5lLiB0aGUgc2NyaXB0IGlzIGV4cGVjdGVkIHRvIGV4cG9ydCBhICR7cGFydGlhbE1lc3NhZ2V9LiBSZXF1aXJlZCBzY3JpcHQ6ICR7dXRpbC5pbnNwZWN0KHJlcXVpcmVkTW9kdWxlKX1gKVxuICAgICAgYnJlYWtcbiAgfVxuXG4gIGlmICghQXJyYXkuaXNBcnJheShwYXJhbWV0ZXIpKSBwYXJhbWV0ZXIgPSBbcGFyYW1ldGVyXVxuXG4gIGlmIChhZGFwdGVyRnVuY3Rpb24pIHtcbiAgICBmdW5jID0gYWRhcHRlckZ1bmN0aW9uKHsgY2FsbGJhY2s6IGZ1bmMsIGFyZ3M6IHBhcmFtZXRlciB9KVxuICAgIGZ1bmMoKVxuICB9IGVsc2UgZnVuYyguLi5wYXJhbWV0ZXIpIC8vIGV4ZWN1dGUgZnVuY3Rpb24gZnJvbSBtb2R1bGUgcGFzc2luZyBpdCB0aGUgcGFyYW1ldGVycy5cbn1cbiJdfQ==

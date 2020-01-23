@@ -1,24 +1,25 @@
-import path from 'path'
-const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[33m\x1b[1m\x1b[7m', message: '\x1b[96m', italic: '\x1b[2m\x1b[3m', default: '\x1b[0m' }
-import assert from 'assert'
+"use strict";var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");Object.defineProperty(exports, "__esModule", { value: true });exports.executeOnRequire = executeOnRequire;var _path = _interopRequireDefault(require("path"));
 
-/**
- * Execute `scriptCofnig.type == 'script'`
- * Usage:
- *  # Extracting the parameters from the script: `const [parameter1, parameter2] = process.argv.parameter`
- *    e.g. `const [api] = process.argv.parameter` or `const [{ project: projectApi }] = process.argv.parameter`
- */
-export function executeOnRequire({
+var _assert = _interopRequireDefault(require("assert"));const style = { titleCyan: '\x1b[33m\x1b[1m\x1b[7m\x1b[36m', titleGolden: '\x1b[33m\x1b[1m\x1b[7m', message: '\x1b[96m', italic: '\x1b[2m\x1b[3m', default: '\x1b[0m' };
+
+
+
+
+
+
+
+function executeOnRequire({
   scriptPath,
-  parameter = null, // parameters are passed using an environment variable.
-}) {
-  assert(path.isAbsolute(scriptPath), `• 'scriptPath' must be an absolute path to be executed.`)
-  console.log(`${style.italic}${style.titleGolden}%s${style.default} - %s`, `•[JS script]`, `Running ${scriptPath}`)
-  console.log(`\t\x1b[2m\x1b[3m%s\x1b[0m \x1b[95m%s\x1b[0m`, `File path:`, `${scriptPath}`)
+  parameter = null })
+{
+  (0, _assert.default)(_path.default.isAbsolute(scriptPath), `• 'scriptPath' must be an absolute path to be executed.`);
+  console.log(`${style.italic}${style.titleGolden}%s${style.default} - %s`, `•[JS script]`, `Running ${scriptPath}`);
+  console.log(`\t\x1b[2m\x1b[3m%s\x1b[0m \x1b[95m%s\x1b[0m`, `File path:`, `${scriptPath}`);
 
-  // pass parameter to script
-  // another option for passing parameter could be `process.argv.push(...parameter)`
-  process.argv['parameter'] = parameter // attach to the global `process.argv` object, this will not affect the argv array yet allow access to the parameters
 
-  require(scriptPath)
+
+  process.argv['parameter'] = parameter;
+
+  require(scriptPath);
 }
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9leGVjdXRpb25BbGdvcml0aG0vZXhlY3V0ZU9uUmVxdWlyZS5qcyJdLCJuYW1lcyI6WyJzdHlsZSIsInRpdGxlQ3lhbiIsInRpdGxlR29sZGVuIiwibWVzc2FnZSIsIml0YWxpYyIsImRlZmF1bHQiLCJleGVjdXRlT25SZXF1aXJlIiwic2NyaXB0UGF0aCIsInBhcmFtZXRlciIsInBhdGgiLCJpc0Fic29sdXRlIiwiY29uc29sZSIsImxvZyIsInByb2Nlc3MiLCJhcmd2IiwicmVxdWlyZSJdLCJtYXBwaW5ncyI6IjRNQUFBOztBQUVBLHdEQURBLE1BQU1BLEtBQUssR0FBRyxFQUFFQyxTQUFTLEVBQUUsZ0NBQWIsRUFBK0NDLFdBQVcsRUFBRSx3QkFBNUQsRUFBc0ZDLE9BQU8sRUFBRSxVQUEvRixFQUEyR0MsTUFBTSxFQUFFLGdCQUFuSCxFQUFxSUMsT0FBTyxFQUFFLFNBQTlJLEVBQWQ7Ozs7Ozs7O0FBU08sU0FBU0MsZ0JBQVQsQ0FBMEI7QUFDL0JDLEVBQUFBLFVBRCtCO0FBRS9CQyxFQUFBQSxTQUFTLEdBQUcsSUFGbUIsRUFBMUI7QUFHSjtBQUNELHVCQUFPQyxjQUFLQyxVQUFMLENBQWdCSCxVQUFoQixDQUFQLEVBQXFDLHlEQUFyQztBQUNBSSxFQUFBQSxPQUFPLENBQUNDLEdBQVIsQ0FBYSxHQUFFWixLQUFLLENBQUNJLE1BQU8sR0FBRUosS0FBSyxDQUFDRSxXQUFZLEtBQUlGLEtBQUssQ0FBQ0ssT0FBUSxPQUFsRSxFQUEyRSxjQUEzRSxFQUEyRixXQUFVRSxVQUFXLEVBQWhIO0FBQ0FJLEVBQUFBLE9BQU8sQ0FBQ0MsR0FBUixDQUFhLDZDQUFiLEVBQTRELFlBQTVELEVBQTBFLEdBQUVMLFVBQVcsRUFBdkY7Ozs7QUFJQU0sRUFBQUEsT0FBTyxDQUFDQyxJQUFSLENBQWEsV0FBYixJQUE0Qk4sU0FBNUI7O0FBRUFPLEVBQUFBLE9BQU8sQ0FBQ1IsVUFBRCxDQUFQO0FBQ0QiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgcGF0aCBmcm9tICdwYXRoJ1xuY29uc3Qgc3R5bGUgPSB7IHRpdGxlQ3lhbjogJ1xceDFiWzMzbVxceDFiWzFtXFx4MWJbN21cXHgxYlszNm0nLCB0aXRsZUdvbGRlbjogJ1xceDFiWzMzbVxceDFiWzFtXFx4MWJbN20nLCBtZXNzYWdlOiAnXFx4MWJbOTZtJywgaXRhbGljOiAnXFx4MWJbMm1cXHgxYlszbScsIGRlZmF1bHQ6ICdcXHgxYlswbScgfVxuaW1wb3J0IGFzc2VydCBmcm9tICdhc3NlcnQnXG5cbi8qKlxuICogRXhlY3V0ZSBgc2NyaXB0Q29mbmlnLnR5cGUgPT0gJ3NjcmlwdCdgXG4gKiBVc2FnZTpcbiAqICAjIEV4dHJhY3RpbmcgdGhlIHBhcmFtZXRlcnMgZnJvbSB0aGUgc2NyaXB0OiBgY29uc3QgW3BhcmFtZXRlcjEsIHBhcmFtZXRlcjJdID0gcHJvY2Vzcy5hcmd2LnBhcmFtZXRlcmBcbiAqICAgIGUuZy4gYGNvbnN0IFthcGldID0gcHJvY2Vzcy5hcmd2LnBhcmFtZXRlcmAgb3IgYGNvbnN0IFt7IHByb2plY3Q6IHByb2plY3RBcGkgfV0gPSBwcm9jZXNzLmFyZ3YucGFyYW1ldGVyYFxuICovXG5leHBvcnQgZnVuY3Rpb24gZXhlY3V0ZU9uUmVxdWlyZSh7XG4gIHNjcmlwdFBhdGgsXG4gIHBhcmFtZXRlciA9IG51bGwsIC8vIHBhcmFtZXRlcnMgYXJlIHBhc3NlZCB1c2luZyBhbiBlbnZpcm9ubWVudCB2YXJpYWJsZS5cbn0pIHtcbiAgYXNzZXJ0KHBhdGguaXNBYnNvbHV0ZShzY3JpcHRQYXRoKSwgYOKAoiAnc2NyaXB0UGF0aCcgbXVzdCBiZSBhbiBhYnNvbHV0ZSBwYXRoIHRvIGJlIGV4ZWN1dGVkLmApXG4gIGNvbnNvbGUubG9nKGAke3N0eWxlLml0YWxpY30ke3N0eWxlLnRpdGxlR29sZGVufSVzJHtzdHlsZS5kZWZhdWx0fSAtICVzYCwgYOKAoltKUyBzY3JpcHRdYCwgYFJ1bm5pbmcgJHtzY3JpcHRQYXRofWApXG4gIGNvbnNvbGUubG9nKGBcXHRcXHgxYlsybVxceDFiWzNtJXNcXHgxYlswbSBcXHgxYls5NW0lc1xceDFiWzBtYCwgYEZpbGUgcGF0aDpgLCBgJHtzY3JpcHRQYXRofWApXG5cbiAgLy8gcGFzcyBwYXJhbWV0ZXIgdG8gc2NyaXB0XG4gIC8vIGFub3RoZXIgb3B0aW9uIGZvciBwYXNzaW5nIHBhcmFtZXRlciBjb3VsZCBiZSBgcHJvY2Vzcy5hcmd2LnB1c2goLi4ucGFyYW1ldGVyKWBcbiAgcHJvY2Vzcy5hcmd2WydwYXJhbWV0ZXInXSA9IHBhcmFtZXRlciAvLyBhdHRhY2ggdG8gdGhlIGdsb2JhbCBgcHJvY2Vzcy5hcmd2YCBvYmplY3QsIHRoaXMgd2lsbCBub3QgYWZmZWN0IHRoZSBhcmd2IGFycmF5IHlldCBhbGxvdyBhY2Nlc3MgdG8gdGhlIHBhcmFtZXRlcnNcblxuICByZXF1aXJlKHNjcmlwdFBhdGgpXG59XG4iXX0=
